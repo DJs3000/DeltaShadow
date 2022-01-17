@@ -7,8 +7,6 @@
 - Заменить SdlDotNet на SDL2.
 - ?
 
-**Скриншот 1**
 ![](https://i.ibb.co/ctVSpS2/01.jpg)
 
-**Скриншот 2**
 ![](https://i.ibb.co/hMKYxxC/02.png)
