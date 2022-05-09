@@ -1,5 +1,7 @@
 #include "Events.h"
 
+#include "SdlDotNetCompat/Core/SdlException.h"
+
 #include <SDL.h>
 #include <SDL_events.h>
 #include <SDL_mixer.h>
@@ -110,7 +112,7 @@ bool Events::Poll()
       int ret = SDL_PollEvent(&event);
       if (ret == SdlFlag::Error)
       {
-         // TODO
+         throw Core::SdlException(SDL_GetError());
       }
       if (ret == SdlFlag::None)
       {
@@ -136,7 +138,7 @@ bool Events::Poll(int numberOfEvents)
       int ret = SDL_PollEvent(&event);
       if (ret == SdlFlag::Error)
       {
-         // TODO
+         throw Core::SdlException(SDL_GetError());
       }
       if (ret == SdlFlag::None)
       {

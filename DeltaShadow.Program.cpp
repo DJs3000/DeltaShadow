@@ -3800,7 +3800,7 @@ void Program::UpdateLoadScreen()
 
 void Program::InitMainMenu(bool hard_init)
 {
-    debug_mode = true; // NOTE: configure mode here
+    debug_mode = false; // NOTE: configure mode here
     game_mode = main_menu_mode;
     main_menu_pos = 0;
     SaveProgress();
@@ -10467,13 +10467,13 @@ void Program::KeyboardDown(void *, KeyboardEventArgs *e)
         }
     }
 
-    if (( (e->Mod() & ModifierKeys::LeftAlt) | (e->Mod() & ModifierKeys::RightAlt) ) != 0 && e->Key() == Key::Return) // TODO: check condition
+    if (( (e->Mod() & ModifierKeys::LeftAlt) | (e->Mod() & ModifierKeys::RightAlt) ) != 0 && e->Key() == Key::Return)
     {
         full_screen_mode = !full_screen_mode;
         InitVideo();
     }
 
-    if (( (e->Mod() & ModifierKeys::LeftAlt) | (e->Mod() & ModifierKeys::RightAlt) ) != 0 && e->Key() == Key::F4) // TODO: check condition
+    if (( (e->Mod() & ModifierKeys::LeftAlt) | (e->Mod() & ModifierKeys::RightAlt) ) != 0 && e->Key() == Key::F4)
     {
         Quit(this, new QuitEventArgs());
     }
