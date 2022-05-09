@@ -12,7 +12,7 @@ Delta’s Shadow является идейным продолжением игр
 mkdir build && cd build<br>
 cmake -DCMAKE_BUILD_TYPE=Release ..<br>
 make<br>
-2) QT вариант:<br>
+2) Qt вариант:<br>
 qmake DeltaShadow.pro<br>
 make<br>
 
