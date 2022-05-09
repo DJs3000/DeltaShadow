@@ -7,14 +7,14 @@ Delta’s Shadow является идейным продолжением игр
 - музыка: Олег Никитин (n1k-o)
 - графика: Евгений Рогулин (ER)
 
-**Сборка**
-1 Cmake вариант:
-mkdir build && cd build
-cmake -DCMAKE_BUILD_TYPE=Release ..
-make
-2 QT вариант:
-qmake DeltaShadow.pro
-make
+**Сборка**<br>
+1 Cmake вариант:<br>
+mkdir build && cd build<br>
+cmake -DCMAKE_BUILD_TYPE=Release ..<br>
+make<br>
+2 QT вариант:<br>
+qmake DeltaShadow.pro<br>
+make<br>
 
 **Roadmap:**
 - Переписать рендер на OpenGL.
