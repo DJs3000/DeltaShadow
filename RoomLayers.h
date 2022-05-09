@@ -18,7 +18,7 @@ namespace DeltaShadow
 		};
 
 	public:
-		std::wstring Name;
+      std::string Name;
 		std::vector<std::shared_ptr<LayerTile>> LayerTiles = std::vector<std::shared_ptr<LayerTile>>();
 
 	};
