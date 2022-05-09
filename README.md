@@ -8,6 +8,7 @@ Delta’s Shadow является идейным продолжением игр
 - графика: Евгений Рогулин (ER)
 
 **Сборка**<br>
+Для сборки необходимо рпедустанвоить следующие пакеты: sdl, sdl_image, sdl_mixer.<br>
 1) Cmake вариант:<br>
 mkdir build && cd build<br>
 cmake -DCMAKE_BUILD_TYPE=Release ..<br>
