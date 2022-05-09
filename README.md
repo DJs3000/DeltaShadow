@@ -8,11 +8,11 @@ Delta’s Shadow является идейным продолжением игр
 - графика: Евгений Рогулин (ER)
 
 **Сборка**<br>
-1 Cmake вариант:<br>
+1) Cmake вариант:<br>
 mkdir build && cd build<br>
 cmake -DCMAKE_BUILD_TYPE=Release ..<br>
 make<br>
-2 QT вариант:<br>
+2) QT вариант:<br>
 qmake DeltaShadow.pro<br>
 make<br>
 
