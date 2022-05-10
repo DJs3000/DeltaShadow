@@ -29,7 +29,7 @@ bool Mixer::Initialize()
 Mix_Chunk *Mixer::Load(const std::string &file)
 {
    SDL_RWops *f = SDL_RWFromFile(file.c_str(), "rb");
-   Mix_Chunk *chunk = Mix_LoadWAV_RW(f, 1);
+   Mix_Chunk *chunk = Mix_LoadWAV_RW(f, 0);
 
    return chunk;
 }
