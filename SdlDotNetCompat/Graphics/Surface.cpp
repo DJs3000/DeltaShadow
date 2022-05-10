@@ -7,8 +7,8 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_video.h>
-#include <SDL_gfxPrimitives.h>
-#include <SDL_rotozoom.h>
+#include <SDL/SDL_gfxPrimitives.h>
+#include <SDL/SDL_rotozoom.h>
 
 #include <cstring>
 

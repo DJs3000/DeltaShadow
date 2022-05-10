@@ -4,6 +4,8 @@
 
 #include "SDL.h"
 
+#include <string>
+
 namespace SdlDotNetCompat {
 namespace Graphics {
 

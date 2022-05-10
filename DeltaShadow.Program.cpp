@@ -241,7 +241,7 @@ void Program::Event_fraction(const std::shared_ptr<GameObject> &obj)
 
 void Program::Event_door_open(const std::shared_ptr<GameObject> &obj)
 {
-    obj->Priority = static_cast<std::uint8_t>(2 - obj->Priority);
+    obj->Priority = static_cast<uint8_t>(2 - obj->Priority);
     if (obj->Priority == 0)
     {
         disable_control = false;
@@ -269,7 +269,7 @@ void Program::Event_door_close(const std::shared_ptr<GameObject> &obj)
     }
     else if (obj->Status == 1)
     {
-        std::int32_t p = 3;
+        int32_t p = 3;
         if (current_level == 4)
         {
             p = 7;
@@ -393,16 +393,16 @@ void Program::Event_show_hero(const std::shared_ptr<GameObject> &obj)
 void Program::Event_jdoor(const std::shared_ptr<GameObject> &obj)
 {
     //выход из кабинета
-    std::int32_t cnt = obj->Counter & 15;
+    int32_t cnt = obj->Counter & 15;
     if (cnt == 0)
     {
-        current_xy_room = static_cast<std::uint8_t>(current_xy_room + return_room);
+        current_xy_room = static_cast<uint8_t>(current_xy_room + return_room);
     }
     //вход в кабинет
     else
     {
-        return_room = static_cast<std::uint8_t>(current_xy_room - cnt);
-        current_xy_room = static_cast<std::uint8_t>(cnt);
+        return_room = static_cast<uint8_t>(current_xy_room - cnt);
+        current_xy_room = static_cast<uint8_t>(cnt);
         obj->Counter = obj->Counter | 16;
     }
 
@@ -506,7 +506,7 @@ void Program::Event_lounchrocket(const std::shared_ptr<GameObject> &obj)
     InitSFX(sfx_rocket);
 }
 
-void Program::Event_jump(const std::shared_ptr<GameObject> &obj, std::int32_t accel)
+void Program::Event_jump(const std::shared_ptr<GameObject> &obj, int32_t accel)
 {
     obj->YAccel = -accel;
     obj->NoInterruptAnim = false;
@@ -536,7 +536,7 @@ void Program::Event_crab_upshoot(const std::shared_ptr<GameObject> &obj)
     InitSFX(sfx_rocket);
 }
 
-void Program::Event_ray_shot(const std::shared_ptr<GameObject> &obj, std::int32_t x_distance, std::int32_t y_distance)
+void Program::Event_ray_shot(const std::shared_ptr<GameObject> &obj, int32_t x_distance, int32_t y_distance)
 {
     if (hero_object->UndeadCounter == 0 && SeeOnHero(obj) && GetXDistance(obj) < x_distance && std::abs(obj->Y - hero_object->Y) < y_distance)
     {
@@ -582,10 +582,10 @@ void Program::Event_dragonfire(const std::shared_ptr<GameObject> &obj)
     InitSFX(sfx_rocket);
 }
 
-std::shared_ptr<Program::GameObject> Program::CreateObject(std::uint8_t name, std::int32_t x, std::int32_t y, bool direction, bool actual_object)
+std::shared_ptr<Program::GameObject> Program::CreateObject(uint8_t name, int32_t x, int32_t y, bool direction, bool actual_object)
 {
     //ищем пустой слот объекта
-    for (std::uint32_t i = 0; i < game_objects.size(); i++)
+    for (uint32_t i = 0; i < game_objects.size(); i++)
     {
         if (game_objects[i]->Name == 0)
         {
@@ -664,7 +664,7 @@ void Program::RemoveActualObject(const std::shared_ptr<GameObject> &obj)
     }
 }
 
-std::shared_ptr<Program::GameObject> Program::CreateChild(const std::shared_ptr<Program::GameObject> &obj, std::uint8_t name, std::int32_t xoffset, std::int32_t yoffset)
+std::shared_ptr<Program::GameObject> Program::CreateChild(const std::shared_ptr<Program::GameObject> &obj, uint8_t name, int32_t xoffset, int32_t yoffset)
 {
     if (obj->Direction)
     {
@@ -682,7 +682,7 @@ bool Program::Gravity(const std::shared_ptr<Program::GameObject> &obj)
         return false;
     }
 
-    std::int32_t v = 24;
+    int32_t v = 24;
     if (GetProperty(obj, 0, -1) == isWater || GetProperty(obj, 0, -18) == isWater)
     {
         v = 6;
@@ -698,7 +698,7 @@ bool Program::Gravity(const std::shared_ptr<Program::GameObject> &obj)
         obj->YAccel = v;
     }
 
-    std::int32_t ydelta = obj->YAccel / 4;
+    int32_t ydelta = obj->YAccel / 4;
     obj->Y += ydelta;
 
     if (obj->YAccel < 0)
@@ -717,13 +717,13 @@ bool Program::Gravity(const std::shared_ptr<Program::GameObject> &obj)
         gb = GetProperty(obj, obj->Width, 0);
         if ((obj->Y & 0x0f) < 8 && (ga == isFloor || gb == isFloor || ga == isPlatform || gb == isPlatform || (ga == isSpike && gb == isSpike) || ga == isShift || gb == isShift))
         {
-            std::int32_t temp_y = obj->Y;
-            std::int32_t temp_ya = obj->YAccel;
+            int32_t temp_y = obj->Y;
+            int32_t temp_ya = obj->YAccel;
             obj->Y &= 0xfff0;
             obj->YAccel = 0;
 
-            std::int32_t a = GetProperty(obj, -obj->Width, -1);
-            std::int32_t b = GetProperty(obj, obj->Width, -1);
+            int32_t a = GetProperty(obj, -obj->Width, -1);
+            int32_t b = GetProperty(obj, obj->Width, -1);
             if (obj->Name == idNova && !hero_die && (a == isFloor || b == isFloor))
             {
                 obj->Y = temp_y;
@@ -781,7 +781,7 @@ void Program::ChangeDirection(const std::shared_ptr<Program::GameObject> &obj)
     obj->Direction = !obj->Direction;
 }
 
-bool Program::MoveObjectForward(const std::shared_ptr<Program::GameObject> &obj, std::int32_t speed)
+bool Program::MoveObjectForward(const std::shared_ptr<Program::GameObject> &obj, int32_t speed)
 {
     if (obj->Direction)
     {
@@ -793,7 +793,7 @@ bool Program::MoveObjectForward(const std::shared_ptr<Program::GameObject> &obj,
         speed = speed * 6 / 8;
     }
 
-    std::int32_t delta = speed / 2;
+    int32_t delta = speed / 2;
     if ((speed & 1) != 0 && (game_cicle_counter & 1) == 0)
     {
         if (speed >= 0)
@@ -806,9 +806,9 @@ bool Program::MoveObjectForward(const std::shared_ptr<Program::GameObject> &obj,
         }
     }
 
-    std::int32_t dx = obj->Width + std::abs(delta);
-    std::int32_t dy = -1;
-    std::int32_t t;
+    int32_t dx = obj->Width + std::abs(delta);
+    int32_t dy = -1;
+    int32_t t;
     bool i = false;
     while (obj->Height < dy)
     {
@@ -838,9 +838,9 @@ bool Program::MoveObjectForward(const std::shared_ptr<Program::GameObject> &obj,
     return false;
 }
 
-bool Program::SimpleMoveObjectForward(const std::shared_ptr<GameObject> &obj, std::int32_t speed)
+bool Program::SimpleMoveObjectForward(const std::shared_ptr<GameObject> &obj, int32_t speed)
 {
-    std::int32_t b = 0;
+    int32_t b = 0;
     if ((speed & 1) == 1)
     {
         b = game_cicle_counter & 1;
@@ -863,7 +863,7 @@ bool Program::SimpleMoveObjectForward(const std::shared_ptr<GameObject> &obj, st
     }
 }
 
-void Program::CreateBullet(const std::shared_ptr<GameObject> &obj, const std::string &animations, const std::string &anim_name, std::int32_t xoffset, std::int32_t yoffset, std::int32_t xdelta, std::int32_t ydelta, bool damageble)
+void Program::CreateBullet(const std::shared_ptr<GameObject> &obj, const std::string &animations, const std::string &anim_name, int32_t xoffset, int32_t yoffset, int32_t xdelta, int32_t ydelta, bool damageble)
 {
     std::shared_ptr<GameObject> o = CreateChild(obj, idBullet, xoffset, yoffset);
     o->Animations = FindObjectAnimation(animations);
@@ -875,18 +875,18 @@ void Program::CreateBullet(const std::shared_ptr<GameObject> &obj, const std::st
     //o.Fixed = true;
 }
 
-bool Program::TestShoot(const std::shared_ptr<GameObject> &obj, std::int32_t xoffset, std::int32_t yoffset, std::int32_t direct)
+bool Program::TestShoot(const std::shared_ptr<GameObject> &obj, int32_t xoffset, int32_t yoffset, int32_t direct)
 {
     if (!InCurrentRoom(obj))
     {
         return false;
     }
-    std::int32_t i;
-    std::int32_t x = (obj->X + xoffset) / 16;
-    std::int32_t y = (obj->Y + yoffset) / 16;
-    std::int32_t h_x = hero_object->X / 16;
-    std::int32_t h_y1 = (hero_object->Y + hero_object->Height) / 16;
-    std::int32_t h_y2 = hero_object->Y / 16;
+    int32_t i;
+    int32_t x = (obj->X + xoffset) / 16;
+    int32_t y = (obj->Y + yoffset) / 16;
+    int32_t h_x = hero_object->X / 16;
+    int32_t h_y1 = (hero_object->Y + hero_object->Height) / 16;
+    int32_t h_y2 = hero_object->Y / 16;
     if (direct == 0)
     {
         if (!SeeOnHero(obj) || y < h_y1 || y >= h_y2)
@@ -894,7 +894,7 @@ bool Program::TestShoot(const std::shared_ptr<GameObject> &obj, std::int32_t xof
             return false;
         }
 
-        std::int32_t dx = 1;
+        int32_t dx = 1;
         if (obj->Direction)
         {
             dx = -1;
@@ -933,7 +933,7 @@ bool Program::TestShoot(const std::shared_ptr<GameObject> &obj, std::int32_t xof
             return false;
         }
 
-        std::int32_t dy = 1;
+        int32_t dy = 1;
         if (direct == 2)
         {
             if (y < h_y1)
@@ -950,7 +950,7 @@ bool Program::TestShoot(const std::shared_ptr<GameObject> &obj, std::int32_t xof
             return false;
         }
 
-        std::int32_t dx = 1;
+        int32_t dx = 1;
         if (obj->Direction)
         {
             dx = -1;
@@ -970,9 +970,9 @@ bool Program::TestShoot(const std::shared_ptr<GameObject> &obj, std::int32_t xof
     return false;
 }
 
-std::int32_t Program::ObjectsCount(std::int32_t name)
+int32_t Program::ObjectsCount(int32_t name)
 {
-    std::int32_t i = 0;
+    int32_t i = 0;
     for (const auto &obj : actual_objects)
     {
         if (obj->Name == name)
@@ -983,7 +983,7 @@ std::int32_t Program::ObjectsCount(std::int32_t name)
     return i;
 }
 
-void Program::CreateExplosion(const std::shared_ptr<GameObject> &obj, std::int32_t xoffset, std::int32_t yoffset)
+void Program::CreateExplosion(const std::shared_ptr<GameObject> &obj, int32_t xoffset, int32_t yoffset)
 {
     if (ObjectsCount(idExplosion) < 6)
     {
@@ -1008,23 +1008,23 @@ void Program::TurnObject(const std::shared_ptr<GameObject> &obj)
     }
 }
 
-std::uint8_t Program::GetXDistance(const std::shared_ptr<GameObject> &obj)
+uint8_t Program::GetXDistance(const std::shared_ptr<GameObject> &obj)
 {
-    std::int32_t dist = std::abs(hero_object->X - obj->X);
+    int32_t dist = std::abs(hero_object->X - obj->X);
     if (dist >= 256)
     {
         return 255;
     }
     else
     {
-        return static_cast<std::uint8_t>(dist);
+        return static_cast<uint8_t>(dist);
     }
 
 }
 
-std::uint8_t Program::GetYDistance(const std::shared_ptr<GameObject> &obj)
+uint8_t Program::GetYDistance(const std::shared_ptr<GameObject> &obj)
 {
-    std::int32_t dist = obj->Y - hero_object->Y;
+    int32_t dist = obj->Y - hero_object->Y;
     if (dist < 0)
     {
         dist = -dist - 32;
@@ -1040,7 +1040,7 @@ std::uint8_t Program::GetYDistance(const std::shared_ptr<GameObject> &obj)
     }
     else
     {
-        return static_cast<std::uint8_t>(dist);
+        return static_cast<uint8_t>(dist);
     }
 
 }
@@ -1080,7 +1080,7 @@ bool Program::InCurrentRoom(const std::shared_ptr<GameObject> &obj)
     return false;
 }
 
-std::int32_t Program::GetProperty(const std::shared_ptr<GameObject> &obj, std::int32_t xoffset, std::int32_t yoffset)
+int32_t Program::GetProperty(const std::shared_ptr<GameObject> &obj, int32_t xoffset, int32_t yoffset)
 {
     if (obj->Direction)
     {
@@ -1090,10 +1090,10 @@ std::int32_t Program::GetProperty(const std::shared_ptr<GameObject> &obj, std::i
     return (GetFullProperty(obj, xoffset, yoffset) >> 5) & 7;
 }
 
-std::int32_t Program::GetFullProperty(const std::shared_ptr<GameObject> &obj, std::int32_t xoffset, std::int32_t yoffset)
+int32_t Program::GetFullProperty(const std::shared_ptr<GameObject> &obj, int32_t xoffset, int32_t yoffset)
 {
-    std::int32_t x = (obj->X + xoffset) / 16;
-    std::int32_t y = (obj->Y + yoffset) / 16;
+    int32_t x = (obj->X + xoffset) / 16;
+    int32_t y = (obj->Y + yoffset) / 16;
     if (x >= 128)
     {
         x = 0;
@@ -1106,7 +1106,7 @@ std::int32_t Program::GetFullProperty(const std::shared_ptr<GameObject> &obj, st
     return TilesetProperty[ Loc[x][y] ];
 }
 
-std::int32_t Program::GetXYProperty(std::int32_t x, std::int32_t y)
+int32_t Program::GetXYProperty(int32_t x, int32_t y)
 {
     return (TilesetProperty[ Loc[x / 16][y / 16] ] >> 5) & 7;
 }
@@ -1134,25 +1134,25 @@ bool Program::GetRailsTile(const std::shared_ptr<GameObject> &obj)
     return i;
 }
 
-void Program::CreateFractions(const std::shared_ptr<GameObject> &obj, std::int32_t num)
+void Program::CreateFractions(const std::shared_ptr<GameObject> &obj, int32_t num)
 {
     if (graphics_quality == 0)
     {
         return;
     }
 
-    std::int32_t max = 8;
+    int32_t max = 8;
     if (graphics_quality == 1)
     {
         max = 3;
         num /= 2;
     }
-    for (std::int32_t i = 0; i < num; i++)
+    for (int32_t i = 0; i < num; i++)
     {
         if (particle_cntr < max)
         {
-            std::int32_t x = 3 - (rnd->Next() & 7);
-            for (std::int32_t j = 0; j < 8; j++)
+            int32_t x = 3 - (rnd->Next() & 7);
+            for (int32_t j = 0; j < 8; j++)
             {
                 if (GetProperty(obj, x, 0) == isEmpty)
                 {
@@ -1180,9 +1180,9 @@ void Program::CreateMiniBonus(const std::shared_ptr<GameObject> &obj)
         return;
     }
 
-    std::uint8_t b = 0;
-    std::uint8_t c = 0;
-    std::uint8_t d = 0;
+    uint8_t b = 0;
+    uint8_t c = 0;
+    uint8_t d = 0;
 
     switch (rnd->Next() & 15)
     {
@@ -1253,8 +1253,8 @@ void Program::CreateMiniBonus(const std::shared_ptr<GameObject> &obj)
 
 bool Program::EnemyWaterSpikeTest(const std::shared_ptr<GameObject> &obj)
 {
-    std::int32_t a = GetProperty(obj, -obj->Width, 1);
-    std::int32_t b = GetProperty(obj, obj->Width, 1);
+    int32_t a = GetProperty(obj, -obj->Width, 1);
+    int32_t b = GetProperty(obj, obj->Width, 1);
     if ((a == isSpike && b == isSpike) || (a == isWater && b == isWater))
     {
         CreateExplosion(obj, 0, 0);
@@ -1298,14 +1298,14 @@ void Program::InitHeroSpike()
     InitIcon(im_noise);
 }
 
-bool Program::HeroDamage(const std::shared_ptr<GameObject> &obj, std::int32_t yoffset)
+bool Program::HeroDamage(const std::shared_ptr<GameObject> &obj, int32_t yoffset)
 {
     if (disable_control || hero_object->UndeadCounter != 0 || hero_life == 0 || hero_die)
     {
         return false;
     }
 
-    std::int32_t w = obj->Width;
+    int32_t w = obj->Width;
     if (w < 12)
     {
         w = 12;
@@ -1380,10 +1380,10 @@ void Program::DecreaseHeroLife()
     }
 }
 
-std::shared_ptr<Program::GameObject> Program::EnemyDamage(const std::shared_ptr<Program::GameObject> &obj, std::int32_t xdist)
+std::shared_ptr<Program::GameObject> Program::EnemyDamage(const std::shared_ptr<Program::GameObject> &obj, int32_t xdist)
 {
     std::shared_ptr<GameObject> r = nullptr;
-    std::int32_t ra = 6;
+    int32_t ra = 6;
     if (obj->Name == idWave)
     {
         ra = 10;
@@ -1462,7 +1462,7 @@ void Program::HeroOnRoof()
     }
 }
 
-bool Program::InRange(std::int32_t a, std::int32_t b, std::int32_t value)
+bool Program::InRange(int32_t a, int32_t b, int32_t value)
 {
     if (std::abs(a - b) < value)
     {
@@ -1471,7 +1471,7 @@ bool Program::InRange(std::int32_t a, std::int32_t b, std::int32_t value)
     return false;
 }
 
-bool Program::ObjCentrum(const std::shared_ptr<GameObject> &obj, std::int32_t xoffset)
+bool Program::ObjCentrum(const std::shared_ptr<GameObject> &obj, int32_t xoffset)
 {
     if (GetKey(Key_Left + Key_Right))
     {
@@ -1480,11 +1480,11 @@ bool Program::ObjCentrum(const std::shared_ptr<GameObject> &obj, std::int32_t xo
 
     if (hero_object->X < obj->X + xoffset)
     {
-        pressed_keys = static_cast<std::uint8_t>(pressed_keys | Key_Right);
+        pressed_keys = static_cast<uint8_t>(pressed_keys | Key_Right);
     }
     else
     {
-        pressed_keys = static_cast<std::uint8_t>(pressed_keys | Key_Left);
+        pressed_keys = static_cast<uint8_t>(pressed_keys | Key_Left);
     }
     return false;
 }
@@ -1511,7 +1511,7 @@ bool Program::BossDie(const std::shared_ptr<GameObject> &obj)
 
     if (obj->Life == 0)
     {
-        for (std::int32_t i = 0; i < 256; i++)
+        for (int32_t i = 0; i < 256; i++)
         {
             if (((TilesetProperty[i] >> 5) & 7) == isSpike)
             {
@@ -1551,27 +1551,27 @@ void Program::InitGEngine()
     //загрузка некстовской палитры
     BinaryStreamReader f("./res/palettes/NextPalette.bin");
 
-    for (std::int32_t i = 0; i < 256; i++)
+    for (int32_t i = 0; i < 256; i++)
     {
         next_palette[i] = Color::FromArgb(f.ReadInt32());
     }
 }
 
-SdlDotNetCompat::Drawing::Color Program::GetColor(std::int32_t zxcolor)
+SdlDotNetCompat::Drawing::Color Program::GetColor(int32_t zxcolor)
 {
-    std::int32_t bright = (zxcolor & 8) == 0 ? 192 : 255;
-    std::int32_t r = (zxcolor & 2) == 0 ? 0 : bright;
-    std::int32_t g = (zxcolor & 4) == 0 ? 0 : bright;
-    std::int32_t b = (zxcolor & 1) == 0 ? 0 : bright;
+    int32_t bright = (zxcolor & 8) == 0 ? 192 : 255;
+    int32_t r = (zxcolor & 2) == 0 ? 0 : bright;
+    int32_t g = (zxcolor & 4) == 0 ? 0 : bright;
+    int32_t b = (zxcolor & 1) == 0 ? 0 : bright;
     return SdlDotNetCompat::Drawing::Color::FromArgb(r, g, b);
 }
 
 void Program::ClearScreen()
 {
     screen->Fill(Color::Black);
-    for (std::int32_t y = 0; y < 192; y++)
+    for (int32_t y = 0; y < 192; y++)
     {
-        for (std::int32_t x = 0; x < 256; x++)
+        for (int32_t x = 0; x < 256; x++)
         {
             attr_layer[0][x][y] = attr_palette[0][0];
             attr_layer[1][x][y] = attr_palette[1][15];
@@ -1579,11 +1579,11 @@ void Program::ClearScreen()
     }
 }
 
-void Program::FillAttrRect(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height, std::uint8_t attr)
+void Program::FillAttrRect(int32_t x, int32_t y, int32_t width, int32_t height, uint8_t attr)
 {
-    for (std::int32_t j = 0; j < height * 8; j++)
+    for (int32_t j = 0; j < height * 8; j++)
     {
-        for (std::int32_t i = 0; i < width * 8; i++)
+        for (int32_t i = 0; i < width * 8; i++)
         {
             attr_layer[0][x * 8 + i][y * 8 + j] = GetAttrColor(attr, false);
             attr_layer[1][x * 8 + i][y * 8 + j] = GetAttrColor(attr, true);
@@ -1594,8 +1594,8 @@ void Program::FillAttrRect(std::int32_t x, std::int32_t y, std::int32_t width, s
 
 void Program::InitRoomTiles()
 {
-    std::int32_t cx = current_xy_room & 0x0f;
-    std::int32_t cy = (current_xy_room & 0xf0) / 16;
+    int32_t cx = current_xy_room & 0x0f;
+    int32_t cy = (current_xy_room & 0xf0) / 16;
 
     x_home_tile = cx * 14;
     y_home_tile = cy * 8;
@@ -1603,13 +1603,13 @@ void Program::InitRoomTiles()
     y_home = y_home_tile * 16;
 
     RoomAnimTiles.clear();
-    for (std::int32_t j = 0; j < 10; j++)
+    for (int32_t j = 0; j < 10; j++)
     {
-        for (std::int32_t i = 0; i < 16; i++)
+        for (int32_t i = 0; i < 16; i++)
         {
             Room[i][j] = Loc[x_home_tile + i][y_home_tile + j];
-            std::int32_t p = TilesetProperty[Room[i][j]];
-            std::int32_t pp = (p >> 5) & 7;
+            int32_t p = TilesetProperty[Room[i][j]];
+            int32_t pp = (p >> 5) & 7;
             if ((p & 0x0c) != 0 && (graphics_quality != 0 || p == 104 || p == 105 || (pp != 0 && pp != isPlatform && pp != isRails && pp != isFloor && pp != isWater)))
             {
                 std::shared_ptr<AnimTile> a = std::make_shared<AnimTile>();
@@ -1677,7 +1677,7 @@ void Program::InitRoom(bool new_hero_cord)
     //проверяем комнату на безопасность респавна для героя
     if (!hero_object->NoInterruptAnim && !in_boss_room)
     {
-        std::int32_t x = 0;
+        int32_t x = 0;
         if (slide_cntr != 0)
         {
             while (GetProperty(hero_object, x - 8, -32) == isFloor)
@@ -1690,11 +1690,11 @@ void Program::InitRoom(bool new_hero_cord)
             }
         }
 
-        std::int32_t yoffset = 1;
+        int32_t yoffset = 1;
         while (hero_object->Y + yoffset - (current_xy_room & 0xf0) * 8 < 160)
         {
-            std::int32_t t1 = GetProperty(hero_object, 8, yoffset);
-            std::int32_t t2 = GetProperty(hero_object, -8, yoffset);
+            int32_t t1 = GetProperty(hero_object, 8, yoffset);
+            int32_t t2 = GetProperty(hero_object, -8, yoffset);
 
             if (t1 == isShift || t2 == isShift || t1 == isSpike || t2 == isSpike)
             {
@@ -1748,11 +1748,11 @@ void Program::InitRoom(bool new_hero_cord)
     }
 }
 
-void Program::NewTile(std::int32_t x, std::int32_t y, std::int32_t num)
+void Program::NewTile(int32_t x, int32_t y, int32_t num)
 {
     Loc[x][y] = num;
-    std::int32_t i = x - x_home_tile;
-    std::int32_t j = y - y_home_tile;
+    int32_t i = x - x_home_tile;
+    int32_t j = y - y_home_tile;
     if (i < 0 || i >= 16 || j < 0 || j >= 10)
     {
         return;
@@ -1763,9 +1763,9 @@ void Program::NewTile(std::int32_t x, std::int32_t y, std::int32_t num)
 
 void Program::FullRoomRedraw()
 {
-    for (std::int32_t j = 0; j < 10; j++)
+    for (int32_t j = 0; j < 10; j++)
     {
-        for (std::int32_t i = 0; i < 16; i++)
+        for (int32_t i = 0; i < 16; i++)
         {
             screen_refresh_tab[i][j] = true;
         }
@@ -1777,8 +1777,8 @@ void Program::DrawRoom()
     //анимируем тайлы
     for (const auto &a : RoomAnimTiles)
     {
-        std::int32_t mask;
-        std::int32_t tile = a->num;
+        int32_t mask;
+        int32_t tile = a->num;
         //обычная анимация
         if ((a->property & 0x10) == 0 || (a->property & 0xf0) == 0xf0)
         {
@@ -1815,9 +1815,9 @@ void Program::DrawRoom()
     }
 
     //прорисовываем тайлы
-    for (std::int32_t j = 0; j < 10; j++)
+    for (int32_t j = 0; j < 10; j++)
     {
-        for (std::int32_t i = 0; i < 16; i++)
+        for (int32_t i = 0; i < 16; i++)
         {
             if (screen_refresh_tab[i][j])
             {
@@ -1825,9 +1825,9 @@ void Program::DrawRoom()
                 screen->Blit(*(Tileset[tiles_mode][room]), Point(i * 16, j * 16));
                 if (tiles_mode == 0)
                 {
-                    for (std::int32_t ya = 0; ya < 16; ya++)
+                    for (int32_t ya = 0; ya < 16; ya++)
                     {
-                        for (std::int32_t xa = 0; xa < 16; xa++)
+                        for (int32_t xa = 0; xa < 16; xa++)
                         {
                             attr_layer[0][i * 16 + xa][j * 16 + ya] = TilesetAttr[0][room][xa][ya];
                             attr_layer[1][i * 16 + xa][j * 16 + ya] = TilesetAttr[1][room][xa][ya];
@@ -1842,14 +1842,14 @@ void Program::DrawRoom()
 
 void Program::DrawTileObject(const std::shared_ptr<GameObject> &obj)
 {
-    std::int32_t i = ((obj->X - x_home) - 8) / 8;
-    std::int32_t j = ((obj->Y - y_home) - 16) / 8;
+    int32_t i = ((obj->X - x_home) - 8) / 8;
+    int32_t j = ((obj->Y - y_home) - 16) / 8;
     if (tiles_mode == zx_classic_mode)
     {
         screen->Blit(*Tileset[tiles_mode][obj->XAccel], Point(i * 8, j * 8));
-        for (std::int32_t ya = 0; ya < 16; ya++)
+        for (int32_t ya = 0; ya < 16; ya++)
         {
-            for (std::int32_t xa = 0; xa < 16; xa++)
+            for (int32_t xa = 0; xa < 16; xa++)
             {
                 attr_layer[0][i * 8 + xa][j * 8 + ya] = TilesetAttr[0][obj->XAccel][xa][ya];
                 attr_layer[1][i * 8 + xa][j * 8 + ya] = TilesetAttr[1][obj->XAccel][xa][ya];
@@ -1868,7 +1868,7 @@ void Program::DrawTileObject(const std::shared_ptr<GameObject> &obj)
 
 void Program::DrawSymbolObject(const std::shared_ptr<GameObject> &obj)
 {
-    std::int32_t i, j;
+    int32_t i, j;
     if (tiles_mode == zx_classic_mode)
     {
         i = ((obj->X - x_home) - 4) / 8;
@@ -1877,7 +1877,7 @@ void Program::DrawSymbolObject(const std::shared_ptr<GameObject> &obj)
         {
             return;
         }
-        DrawSymbol32(i, j, static_cast<std::uint8_t>(obj->XAccel), obj->Status);
+        DrawSymbol32(i, j, static_cast<uint8_t>(obj->XAccel), obj->Status);
     }
     else
     {
@@ -1902,15 +1902,15 @@ void Program::DrawGameObject(const std::shared_ptr<GameObject> &obj)
     const auto &composition = obj->Animations[sprite_mode]->Animations[obj->CurrentAnimation]->Frames[obj->Frame]->Composition;
     for (const auto &e : composition)
     {
-        std::int32_t xpos = obj->X;
-        std::int32_t ypos = obj->Y + e->YOffset;
+        int32_t xpos = obj->X;
+        int32_t ypos = obj->Y + e->YOffset;
 
         if (game_mode != stealth_mode && obj->Fixed)
         {
             xpos &= 0xfff8;
         }
 
-        std::int32_t xoffset = e->XOffset;
+        int32_t xoffset = e->XOffset;
         if (obj->Direction)
         {
             xoffset = -e->ElemSprite->Width - e->XOffset;
@@ -1920,17 +1920,17 @@ void Program::DrawGameObject(const std::shared_ptr<GameObject> &obj)
         xpos -= x_home;
         ypos -= y_home;
 
-        std::int32_t x;
-        std::int32_t y;
-        std::int32_t width = e->ElemSprite->Width;
-        std::int32_t height = e->ElemSprite->Height;
+        int32_t x;
+        int32_t y;
+        int32_t width = e->ElemSprite->Width;
+        int32_t height = e->ElemSprite->Height;
 
         if (!(width == 1 && height == 1))
         {
             //помечаем экран на перерисовку
-            for (std::int32_t j = 0; j < (height + 15 + (ypos & 15)) / 16; j++)
+            for (int32_t j = 0; j < (height + 15 + (ypos & 15)) / 16; j++)
             {
-                for (std::int32_t i = 0; i < (width + 15 + (xpos & 15)) / 16; i++)
+                for (int32_t i = 0; i < (width + 15 + (xpos & 15)) / 16; i++)
                 {
                     x = xpos / 16 + i;
                     y = ypos / 16 + j;
@@ -1942,9 +1942,9 @@ void Program::DrawGameObject(const std::shared_ptr<GameObject> &obj)
             }
 
             //рисуем спрайт
-            for (std::int32_t j = 0; j < height; j++)
+            for (int32_t j = 0; j < height; j++)
             {
-                for (std::int32_t i = 0; i < width; i++)
+                for (int32_t i = 0; i < width; i++)
                 {
                     if (obj->Direction)
                     {
@@ -2001,7 +2001,7 @@ void Program::DrawGameObject(const std::shared_ptr<GameObject> &obj)
 
 void Program::DrawGameObjects()
 {
-    for (std::int32_t l = 0; l < 3; l++)
+    for (int32_t l = 0; l < 3; l++)
     {
         for (const auto &obj : actual_objects)
         {
@@ -2078,9 +2078,9 @@ void Program::ScrollRoom()
     }
 }
 
-void Program::SetScale(std::int32_t x, std::int32_t y, std::int32_t value)
+void Program::SetScale(int32_t x, int32_t y, int32_t value)
 {
-    for (std::int32_t j = 0; j < 77; j++)
+    for (int32_t j = 0; j < 77; j++)
     {
         if (value < j)
         {
@@ -2093,9 +2093,9 @@ void Program::SetScale(std::int32_t x, std::int32_t y, std::int32_t value)
     }
 }
 
-void Program::SetScaleCol(std::int32_t x, std::int32_t y)
+void Program::SetScaleCol(int32_t x, int32_t y)
 {
-    for (std::int32_t i = 0; i < 5; i++)
+    for (int32_t i = 0; i < 5; i++)
     {
         if (tiles_mode == 0)
         {
@@ -2106,7 +2106,7 @@ void Program::SetScaleCol(std::int32_t x, std::int32_t y)
         }
         else
         {
-            std::int32_t c = 17;
+            int32_t c = 17;
             if (i == 3)
             {
                 c = 20;
@@ -2116,9 +2116,9 @@ void Program::SetScaleCol(std::int32_t x, std::int32_t y)
     }
 }
 
-void Program::ResScaleCol(std::int32_t x, std::int32_t y)
+void Program::ResScaleCol(int32_t x, int32_t y)
 {
-    for (std::int32_t i = 0; i < 5; i++)
+    for (int32_t i = 0; i < 5; i++)
     {
         if (tiles_mode == 0)
         {
@@ -2134,7 +2134,7 @@ void Program::ResScaleCol(std::int32_t x, std::int32_t y)
     }
 }
 
-void Program::LoadLocationProject(std::int32_t num)
+void Program::LoadLocationProject(int32_t num)
 {
     scroll_direction = 0;
     std::string name = levels_names[num];
@@ -2144,7 +2144,7 @@ void Program::LoadLocationProject(std::int32_t num)
     BinaryStreamReader f(locFile.c_str());
 
     //загрузка локации
-    std::int32_t v = f.ReadByte();
+    int32_t v = f.ReadByte();
     if (v != 0)
     {        
         Quit(this, new QuitEventArgs());
@@ -2153,21 +2153,21 @@ void Program::LoadLocationProject(std::int32_t num)
     LocWidth  = f.ReadByte() + 1;
     LocHeight = f.ReadByte() + 1;
 
-    Loc = AllocateDynamicArray<std::int32_t>(LocHeight, LocWidth);
-    for (std::int32_t y = 0; y < LocHeight; y++)
+    Loc = AllocateDynamicArray<int32_t>(LocHeight, LocWidth);
+    for (int32_t y = 0; y < LocHeight; y++)
     {
-        for (std::int32_t x = 0; x < LocWidth; x++)
+        for (int32_t x = 0; x < LocWidth; x++)
         {
             Loc[x][y] = f.ReadByte();
         }
     }
 
     //загрузка тайлсетов
-    for (std::int32_t k = 0; k < 2; k++)
+    for (int32_t k = 0; k < 2; k++)
     {
-        for (std::int32_t i = 0; i < 256; i++)
+        for (int32_t i = 0; i < 256; i++)
         {
-            for (std::int32_t j = 0; j < 37; j++)
+            for (int32_t j = 0; j < 37; j++)
             {
                 current_tilesets[k][i][j] = f.ReadByte();
             }
@@ -2175,38 +2175,38 @@ void Program::LoadLocationProject(std::int32_t num)
     }
 
     //загрузка палитры Next
-    for (std::int32_t i = 0; i < 2; i++)
+    for (int32_t i = 0; i < 2; i++)
     {
-        for (std::int32_t j = 0; j < 16; j++)
+        for (int32_t j = 0; j < 16; j++)
         {
             f.ReadInt32();
         }
     }
 
     //загрузка координат стартовой комнаты локации
-    std::int32_t cx = f.ReadInt32();
-    std::int32_t cy = f.ReadInt32();
-    current_xy_room = static_cast<std::uint8_t>(cx + cy * 16);
+    int32_t cx = f.ReadInt32();
+    int32_t cy = f.ReadInt32();
+    current_xy_room = static_cast<uint8_t>(cx + cy * 16);
 
     //загрузка объектов локации
     ClearAllObjects();
     std::shared_ptr<GameObject> temp = CreateObject(idNova, 0, 0, false, false);
-    std::int32_t room_x = (LocWidth - 16) / 14 + 1;
-    std::int32_t room_y = (LocHeight - 10) / 8 + 1;
-    for (std::int32_t y = 0; y < (LocHeight - 10) / 8 + 1; y++)
+    int32_t room_x = (LocWidth - 16) / 14 + 1;
+    int32_t room_y = (LocHeight - 10) / 8 + 1;
+    for (int32_t y = 0; y < (LocHeight - 10) / 8 + 1; y++)
     {
-        for (std::int32_t x = 0; x < (LocWidth - 16) / 14 + 1; x++)
+        for (int32_t x = 0; x < (LocWidth - 16) / 14 + 1; x++)
         {
-            std::int32_t xh = x * 14;
-            std::int32_t yh = y * 8;
-            std::int32_t obj_num = f.ReadByte();
-            for (std::int32_t i = 0; i < obj_num; i++)
+            int32_t xh = x * 14;
+            int32_t yh = y * 8;
+            int32_t obj_num = f.ReadByte();
+            for (int32_t i = 0; i < obj_num; i++)
             {
                 std::shared_ptr<GameObject> obj = CreateObject(objects_names[f.ReadString()], 0, 0, false, false);
-                std::int32_t x1 = f.ReadByte();
-                std::int32_t y1 = f.ReadByte();
-                std::int32_t x2 = f.ReadByte();
-                std::int32_t y2 = f.ReadByte();
+                int32_t x1 = f.ReadByte();
+                int32_t y1 = f.ReadByte();
+                int32_t x2 = f.ReadByte();
+                int32_t y2 = f.ReadByte();
                 if (x1 == 0 && x2 == 0 && y1 == 0 && y2 == 0)
                 {
                     obj->X1Trigger = -1;
@@ -2218,7 +2218,7 @@ void Program::LoadLocationProject(std::int32_t num)
                     obj->X2Trigger = (x2 + xh) * 16 + 16;
                     obj->Y2Trigger = (y2 + yh) * 16 + 16;
                 }
-                std::int32_t q = f.ReadByte();
+                int32_t q = f.ReadByte();
                 if (q == 0)
                 {
                     q--;
@@ -2240,11 +2240,11 @@ void Program::LoadLocationProject(std::int32_t num)
                 obj->Right     = f.ReadBoolean();
 
                 obj->NoActivated = true;
-                obj->XYRoom = static_cast<std::uint8_t>(y * 16 + x);
+                obj->XYRoom = static_cast<uint8_t>(y * 16 + x);
 
                 if (reverse_way && obj->Name == idDoor && obj->Status != 2)
                 {
-                    obj->Status = static_cast<std::uint8_t>(1 - obj->Status);
+                    obj->Status = static_cast<uint8_t>(1 - obj->Status);
                 }
 
                 if (obj->Name == idDoor && obj->Status == start_slot)
@@ -2260,19 +2260,19 @@ void Program::LoadLocationProject(std::int32_t num)
 
     //загрузка слоёв комнат локации
     RoomsLayers = std::vector<std::vector<std::shared_ptr<RoomLayers>>>(room_x + room_y * 16);
-    for (std::int32_t y = 0; y < room_y; y++)
+    for (int32_t y = 0; y < room_y; y++)
     {
-        for (std::int32_t x = 0; x < room_x; x++)
+        for (int32_t x = 0; x < room_x; x++)
         {
             RoomsLayers[x + y * 16] = std::vector<std::shared_ptr<RoomLayers>>();
-            std::int32_t layers_num = f.ReadByte();
-            for (std::int32_t i = 0; i < layers_num; i++)
+            int32_t layers_num = f.ReadByte();
+            for (int32_t i = 0; i < layers_num; i++)
             {
                 std::shared_ptr<RoomLayers> l = std::make_shared<RoomLayers>();
 
                 l->Name = f.ReadString();
-                std::int32_t tiles_num = f.ReadInt32();
-                for (std::int32_t j = 0; j < tiles_num; j++)
+                int32_t tiles_num = f.ReadInt32();
+                for (int32_t j = 0; j < tiles_num; j++)
                 {
                     std::shared_ptr<RoomLayers::LayerTile> t = std::make_shared<RoomLayers::LayerTile>();
                     t->X    = f.ReadByte();
@@ -2289,9 +2289,9 @@ void Program::LoadLocationProject(std::int32_t num)
     Color tileset256[256][256];
     if (f.PeekChar() != -1)
     {
-        for (std::int32_t j = 0; j < 256; j++)
+        for (int32_t j = 0; j < 256; j++)
         {
-            for (std::int32_t i = 0; i < 256; i++)
+            for (int32_t i = 0; i < 256; i++)
             {
                 tileset256[j][i] = Color::FromArgb(f.ReadInt32());
             }
@@ -2299,12 +2299,12 @@ void Program::LoadLocationProject(std::int32_t num)
     }
 
     //прорисовка тайлсета в палитре некста
-    for (std::int32_t i = 0; i < 256; i++)
+    for (int32_t i = 0; i < 256; i++)
     {
         Tileset[1][i] = std::make_shared<Surface>(16, 16);
-        for (std::int32_t y = 0; y < 16; y++)
+        for (int32_t y = 0; y < 16; y++)
         {
-            for (std::int32_t x = 0; x < 16; x++)
+            for (int32_t x = 0; x < 16; x++)
             {
                 Tileset[1][i]->Draw(Point(x, y), tileset256[i][x + y * 16]);
             }
@@ -2312,7 +2312,7 @@ void Program::LoadLocationProject(std::int32_t num)
     }
 
     //инициализируем свойства тайлсета
-    for (std::int32_t i = 0; i < 256; i++)
+    for (int32_t i = 0; i < 256; i++)
     {
         TilesetProperty[i] = current_tilesets[0][i][36];
     }
@@ -2323,14 +2323,14 @@ void Program::LoadLocationProject(std::int32_t num)
 
 void Program::DrawClassicTileset()
 {
-    for (std::int32_t i = 0; i < 256; i++)
+    for (int32_t i = 0; i < 256; i++)
     {
         Tileset[0][i] = std::make_shared<Surface>(16, 16);
-        for (std::int32_t y = 0; y < 16; y++)
+        for (int32_t y = 0; y < 16; y++)
         {
-            for (std::int32_t x = 0; x < 16; x++)
+            for (int32_t x = 0; x < 16; x++)
             {
-                std::uint8_t a = current_tilesets[0][i][y / 8 * 2 + x / 8 + 32];
+                uint8_t a = current_tilesets[0][i][y / 8 * 2 + x / 8 + 32];
                 Color ink = attr_palette[0][(a & 7) + ((a >> 3) & 8)];
                 Color paper = attr_palette[1][(a >> 3) & 15];
 
@@ -2343,7 +2343,7 @@ void Program::DrawClassicTileset()
                 TilesetAttr[1][i][x][y] = paper;
                 TilesetAttr[0][i][x][y] = ink;
 
-                std::uint8_t p = current_tilesets[0][i][y * 2 + x / 8];
+                uint8_t p = current_tilesets[0][i][y * 2 + x / 8];
                 const Color &c = ((p << (x % 8)) & 0x80) == 0 ? paper : ink;
                 Tileset[0][i]->Draw(Point(x, y), c);
             }
@@ -2353,8 +2353,8 @@ void Program::DrawClassicTileset()
 
 void Program::NeedScrollRoom()
 {
-    std::int32_t x = hero_object->X - x_home;
-    std::int32_t y = hero_object->Y - y_home;
+    int32_t x = hero_object->X - x_home;
+    int32_t y = hero_object->Y - y_home;
 
     //вверх
     if (y < 31)
@@ -2406,8 +2406,8 @@ void Program::SetBorder(const Color &c)
 
 // NOTE: preferences (tile mode - zx_classic_mode OR zx_next_mode)
 std::string Program::language = "English";
-std::int32_t Program::sprite_mode = zx_classic_mode;
-std::int32_t Program::tiles_mode = zx_classic_mode;
+int32_t Program::sprite_mode = zx_classic_mode;
+int32_t Program::tiles_mode = zx_classic_mode;
 
 void Program::MainInit()
 {
@@ -2415,7 +2415,7 @@ void Program::MainInit()
     start_life   = 77;
     start_energy = 77;
 
-    for (std::int32_t i = 0; i < 16; i++)
+    for (int32_t i = 0; i < 16; i++)
     {
         attr_palette[0][i] = GetColor(i);
         attr_palette[1][i] = GetColor(i);
@@ -2588,9 +2588,9 @@ void Program::SaveProgress()
     f.Write(current_save_version);
 
     //сохраняем настройки
-    for (std::int32_t i = 0; i < 8; i++)
+    for (int32_t i = 0; i < 8; i++)
     {
-        f.Write(static_cast<std::uint8_t>(KeysMap[i]));
+        f.Write(static_cast<uint8_t>(KeysMap[i]));
     }
     f.Write(kempston_on);
     f.Write(graphics_quality);
@@ -2608,7 +2608,7 @@ void Program::SaveProgress()
     f.Write(collected_stars);
     f.Write(noreaded_stars);
     f.Write(stars_num);
-    for (std::int32_t i = 0; i < 4; i++)
+    for (int32_t i = 0; i < 4; i++)
     {
         f.Write(have_suit[i]);
     }
@@ -2641,7 +2641,7 @@ void Program::LoadProgress()
     }
 
     //загружаем настройки
-    for (std::int32_t i = 0; i < 8; i++)
+    for (int32_t i = 0; i < 8; i++)
     {
         KeysMap[i] = static_cast<Key>(f.ReadByte());
     }
@@ -2663,7 +2663,7 @@ void Program::LoadProgress()
     collected_stars  = f.ReadUInt64();
     noreaded_stars   = f.ReadUInt64();
     stars_num        = f.ReadInt32();
-    for (std::int32_t i = 0; i < 4; i++)
+    for (int32_t i = 0; i < 4; i++)
     {
         have_suit[i] = f.ReadBoolean();
     }
@@ -2802,9 +2802,9 @@ void Program::InitDebugMenu()
 void Program::DrawDebugMenu()
 {
     ClearScreen();
-    std::int32_t x = 0;
-    std::int32_t y = 0;
-    std::int32_t n = 0;
+    int32_t x = 0;
+    int32_t y = 0;
+    int32_t n = 0;
     for (const auto &l : level_names)
     {
         invert_print = n == menu_pos;
@@ -3293,8 +3293,8 @@ void Program::UpdateSelectLevel()
     last_keys = menu_keys;
     menu_keys = pressed_keys;
     bool skip = GetKey(Key_Fire + Key_Jump + Key_Select) && !GetLastKey(255);
-    std::int32_t t = (game_cicle_counter >> 1) & 3;
-    std::int32_t a = t;
+    int32_t t = (game_cicle_counter >> 1) & 3;
+    int32_t a = t;
     if (a == 3)
     {
         a = 1;
@@ -3309,7 +3309,7 @@ void Program::UpdateSelectLevel()
     {
         DrawScreen(select_level_screens, 0);
 
-        for (std::int32_t i = 0; i < 3; i++)
+        for (int32_t i = 0; i < 3; i++)
         {
             if (((levels_complete >> i) & 1) == 0)
             {
@@ -3448,7 +3448,7 @@ void Program::UpdateSelectLevel()
             }
             else if (select_level_fase == 1)
             {
-                std::int32_t n = 13;
+                int32_t n = 13;
                 switch (game_cicle_counter)
                 {
                 case 0:
@@ -3664,7 +3664,7 @@ void Program::UpdateSelectLevel()
 
             if (game_cicle_counter >= 25)
             {
-                std::int32_t n = game_cicle_counter - 25;
+                int32_t n = game_cicle_counter - 25;
                 if (n >= 10)
                 {
                     n = 0;
@@ -3676,7 +3676,7 @@ void Program::UpdateSelectLevel()
     IncGameCicleCounter();
 }
 
-void Program::InitSay(std::int32_t text_num, std::int32_t pictogramm)
+void Program::InitSay(int32_t text_num, int32_t pictogramm)
 {
     pictogramm_pos = pictogramm;
     DrawScreen(pictogramm_screens, pictogramm);
@@ -3741,7 +3741,7 @@ bool Program::UpdateJacquelineSay()
 
 void Program::UpdateLoadScreen()
 {
-    std::int32_t i = (game_cicle_counter >> 3) & 3;
+    int32_t i = (game_cicle_counter >> 3) & 3;
     if (i == 3)
     {
         i = 1;
@@ -3852,7 +3852,7 @@ void Program::UpdateMainMenu()
     }
     PrintText(10, 6, 9, 20, 6, 0);
 
-    std::int32_t min = 0;
+    int32_t min = 0;
     if (prev_game_mode == 0)
     {
         min = 2;
@@ -3902,7 +3902,7 @@ void Program::UpdateMainMenu()
                 game_cicle_counter = 0;
                 ClearScreen();
                 DrawScreen(race_imgs, 0);
-                for (std::int32_t i = 0; i < 77; i++)
+                for (int32_t i = 0; i < 77; i++)
                 {
                     ResScaleCol(19 + i, 6);
                     ResScaleCol(160 + i, 6);
@@ -4043,17 +4043,17 @@ void Program::InitSelectDiff()
 void Program::UpdateSelectDiff()
 {
     FillAttrRect(6, 9, 20, 6, 0x44);
-    std::int32_t y = 11;
+    int32_t y = 11;
     if (max_difficulty == 1)
     {
         y++;
     }
     FillAttrRect(6, y + difficulty, 20, 1, 0x60);
-    std::int32_t pos = FindText(12);
+    int32_t pos = FindText(12);
     pos = PrintString(pos, 6, 9);
     pos = PrintString(pos, 6, 10);
 
-    for (std::int32_t i = 0; i < 1 + max_difficulty; i++)
+    for (int32_t i = 0; i < 1 + max_difficulty; i++)
     {
         pos = PrintString(pos, 6, y);
         y++;
@@ -4109,15 +4109,15 @@ void Program::UpdateSelectMessage()
 
         FillAttrRect(5, 3, 22, 17, 0x44);
 
-        std::int32_t empty_str = FindText(26);
-        std::int32_t str = NextString(empty_str);
-        for (std::int32_t i = 0; i < select_message_home; i++)
+        int32_t empty_str = FindText(26);
+        int32_t str = NextString(empty_str);
+        for (int32_t i = 0; i < select_message_home; i++)
         {
             str = NextString(str);
         }
-        std::int32_t y = 3;
-        std::int32_t pos = select_message_home;
-        for (std::int32_t i = 0; i < 17; i++)
+        int32_t y = 3;
+        int32_t pos = select_message_home;
+        for (int32_t i = 0; i < 17; i++)
         {
             if (pos == 48)
             {
@@ -4133,7 +4133,7 @@ void Program::UpdateSelectMessage()
             }
             else if (pos < stars_num)
             {
-                if ((noreaded_stars & static_cast<std::uint64_t>(1) << pos) == 0)
+                if ((noreaded_stars & static_cast<uint64_t>(1) << pos) == 0)
                 {
                     if (i != select_message_pos)
                     {
@@ -4169,7 +4169,7 @@ void Program::UpdateSelectMessage()
 
         if (select_message_home != 32 && (game_cicle_counter & 4) != 0)
         {
-            std::uint8_t c = 0x44;
+            uint8_t c = 0x44;
             if (select_message_pos == 16)
             {
                 c = 0x4c;
@@ -4180,7 +4180,7 @@ void Program::UpdateSelectMessage()
 
         if (select_message_home != 0 && (game_cicle_counter & 4) != 0)
         {
-            std::uint8_t c = 0x44;
+            uint8_t c = 0x44;
             if (select_message_pos == 0)
             {
                 c = 0x4c;
@@ -4239,10 +4239,10 @@ void Program::UpdateSelectMessage()
             InitSFX(sfx_switch);
         }
 
-        std::int32_t n = select_message_home + select_message_pos;
+        int32_t n = select_message_home + select_message_pos;
         if (GetPressedKey(Key_Fire + Key_Jump + Key_Select) && n < stars_num)
         {
-            noreaded_stars &= ~(static_cast<std::uint64_t>(1) << n);
+            noreaded_stars &= ~(static_cast<uint64_t>(1) << n);
             InitSFX(sfx_switch);
             last_keys = pressed_keys;
             DrawScreen(main_menu_scr, 1);
@@ -4253,7 +4253,7 @@ void Program::UpdateSelectMessage()
             //инициализация сообщения
             read_message_num = n + 27;
             str = FindText(read_message_num);
-            std::uint8_t q = 0;
+            uint8_t q = 0;
             while (static_cast<uint8_t>(texts[str]) != 255)
             {
                 if (texts[str] == '*')
@@ -4269,14 +4269,14 @@ void Program::UpdateSelectMessage()
             }
 
             std::shared_ptr<Program::Sprite> spr = FindSprite(main_menu_scr, std::to_string(n + 1));
-            std::int32_t symbol = 0;
-            for (std::int32_t j = 0; j < 8; j++)
+            int32_t symbol = 0;
+            for (int32_t j = 0; j < 8; j++)
             {
-                for (std::int32_t i = 0; i < 8; i++)
+                for (int32_t i = 0; i < 8; i++)
                 {
-                    for (std::int32_t y2 = 0; y2 < 8; y2++)
+                    for (int32_t y2 = 0; y2 < 8; y2++)
                     {
-                        for (std::int32_t x = 0; x < 8; x++)
+                        for (int32_t x = 0; x < 8; x++)
                         {
                             if (tiles_mode == 0)
                             {
@@ -4314,13 +4314,13 @@ void Program::UpdateReadMessage()
         read_message_scroll = false;
         read_message_down = false;
         FillAttrRect(5, 3, 22, 17, 0x44);
-        std::int32_t str = FindText(read_message_num);
-        for (std::int32_t i = 0; i < read_message_home; i++)
+        int32_t str = FindText(read_message_num);
+        for (int32_t i = 0; i < read_message_home; i++)
         {
             str = NextString(str);
         }
-        std::int32_t y = 3;
-        for (std::int32_t i = 0; i < 17; i++)
+        int32_t y = 3;
+        for (int32_t i = 0; i < 17; i++)
         {
             str = PrintString(str, 5, y);
             y++;
@@ -4444,7 +4444,7 @@ void Program::UpdateControlsSettings()
 {
     FillAttrRect(6, 8, 20, 8, 0x44);
     FillAttrRect(6, 10 + control_pos, 20, 1, 0x60);
-    std::int32_t t = FindText(78);
+    int32_t t = FindText(78);
     t = PrintString(t, 6, 10);
     t = PrintString(t, 6, 11);
     bool joystick_off = false;
@@ -4505,7 +4505,7 @@ void Program::UpdateControlsSettings()
             //сброс на стандарт
             else if (control_pos == 1)
             {
-                for (std::int32_t i = 0; i < 8; i++)
+                for (int32_t i = 0; i < 8; i++)
                 {
                     KeysMap[i] = KeysMapStandart[i];
                     PressedKeysStatus = 0;
@@ -4565,7 +4565,7 @@ void Program::UpdateRedefine()
         {
             KeysMapNew[redefine_tab[redefine_pos]] = pressed_key;
             InitSFX(sfx_switch);
-            DrawSymbol32(25, 8 + redefine_pos, static_cast<std::uint8_t>(pressed_key_symbol), 0x44);
+            DrawSymbol32(25, 8 + redefine_pos, static_cast<uint8_t>(pressed_key_symbol), 0x44);
             redefine_pos++;
         }
         pressed_key_symbol = 0;
@@ -4577,7 +4577,7 @@ void Program::UpdateGraphicSettings()
     FillAttrRect(6, 8, 20, 8, 0x44);
     FillAttrRect(6, 10 + graphic_pos, 20, 1, 0x60);
 
-    std::int32_t b;
+    int32_t b;
     if (release_type == classic_version)
     {
         b = 0;
@@ -4592,13 +4592,13 @@ void Program::UpdateGraphicSettings()
         FillAttrRect(6, 10, 20, b, 0x01);
     }
 
-    std::int32_t t = FindText(80);
-    for (std::int32_t i = 0; i < graphics_quality; i++)
+    int32_t t = FindText(80);
+    for (int32_t i = 0; i < graphics_quality; i++)
     {
         t = NextString(t);
     }
     PrintString(t, 6, 10);
-    for (std::int32_t i = 0; i < 3 - graphics_quality; i++)
+    for (int32_t i = 0; i < 3 - graphics_quality; i++)
     {
         t = NextString(t);
     }
@@ -4677,7 +4677,7 @@ void Program::UpdateSoundSettings()
         FillAttrRect(6, 12, 20, 1, 0x01);
     }
 
-    std::int32_t t = FindText(81);
+    int32_t t = FindText(81);
     if (music_on)
     {
         t = NextString(t);
@@ -4773,7 +4773,7 @@ void Program::UpdateSystemSettings()
     FillAttrRect(6, 8, 20, 8, 0x44);
     FillAttrRect(6, 9 + system_pos, 20, 1, 0x60);
 
-    std::int32_t b;
+    int32_t b;
     if (release_type == classic_version)
     {
         b = 3;
@@ -4784,7 +4784,7 @@ void Program::UpdateSystemSettings()
         b = 0;
     }
 
-    std::int32_t t = FindText(82);
+    int32_t t = FindText(82);
     t = PrintString(t, 6, 9);
     t = NextString(t);
     t = NextString(t);
@@ -4910,7 +4910,7 @@ void Program::UpdateAreYouSure()
     }
     else if (pressed_key_symbol == L'Y')
     {
-        for (std::int32_t i = 0; i < 8; i++)
+        for (int32_t i = 0; i < 8; i++)
         {
             KeysMap[i] = KeysMapNew[i];
         }
@@ -4971,14 +4971,14 @@ void Program::UpdatePlayer()
     {
         FillAttrRect(5, 3, 22, 17, 0x44);
 
-        std::int32_t str = FindText(85);
-        for (std::int32_t i = 0; i < player_home; i++)
+        int32_t str = FindText(85);
+        for (int32_t i = 0; i < player_home; i++)
         {
             str = NextString(str);
         }
-        std::int32_t y = 3;
-        std::int32_t pos = player_home;
-        for (std::int32_t i = 0; i < 17; i++)
+        int32_t y = 3;
+        int32_t pos = player_home;
+        for (int32_t i = 0; i < 17; i++)
         {
             if (i == player_pos)
             {
@@ -5059,7 +5059,7 @@ void Program::UpdatePlayer()
     if (GetPressedKey(Key_Fire + Key_Jump + Key_Select))
     {
         MuteMenuMusic();
-        std::int32_t n = player_home + player_pos;
+        int32_t n = player_home + player_pos;
         if (n < 14)
         {
             if (n >= 12)
@@ -5098,7 +5098,7 @@ void Program::InitNewGame()
     levels_complete = 0;
     final_scens_show = 0;
     last_boss_fase = 0;
-    for (std::int32_t i = 1; i < 4; i++)
+    for (int32_t i = 1; i < 4; i++)
     {
         have_suit[i] = false;
     }
@@ -5106,7 +5106,7 @@ void Program::InitNewGame()
     reverse_way = false;
 }
 
-std::int32_t Program::MenuNavigation(std::int32_t current_pos, std::int32_t min, std::int32_t max)
+int32_t Program::MenuNavigation(int32_t current_pos, int32_t min, int32_t max)
 {
     if (current_pos < min)
     {
@@ -5166,8 +5166,8 @@ void Program::LoadAnimationsProject(const std::string &name)
 
     //спрайты
     anim->Sprites.clear();
-    std::int32_t spr_count = f.ReadInt32();
-    for (std::int32_t i = 0; i < spr_count; i++)
+    int32_t spr_count = f.ReadInt32();
+    for (int32_t i = 0; i < spr_count; i++)
     {
         std::shared_ptr<ObjectAnimation::Sprite> s = std::make_shared<ObjectAnimation::Sprite>();
         s->Name   = f.ReadString();
@@ -5179,9 +5179,9 @@ void Program::LoadAnimationsProject(const std::string &name)
         if (s->Type == 0)
         {
             s->ClassicLayer = AllocateDynamicArray<int32_t>(s->Height, s->Width);
-            for (std::int32_t y = 0; y < s->Height; y++)
+            for (int32_t y = 0; y < s->Height; y++)
             {
-                for (std::int32_t x = 0; x < s->Width; x++)
+                for (int32_t x = 0; x < s->Width; x++)
                 {
                     s->ClassicLayer[x][y] = f.ReadInt32();
                 }
@@ -5192,9 +5192,9 @@ void Program::LoadAnimationsProject(const std::string &name)
         if (s->Type == 1)
         {
             s->NextLayer = AllocateDynamicArray<SdlDotNetCompat::Drawing::Color>(s->Height, s->Width);
-            for (std::int32_t y = 0; y < s->Height; y++)
+            for (int32_t y = 0; y < s->Height; y++)
             {
-                for (std::int32_t x = 0; x < s->Width; x++)
+                for (int32_t x = 0; x < s->Width; x++)
                 {
                     s->NextLayer[x][y] = Color::FromArgb(f.ReadInt32());
                 }
@@ -5205,23 +5205,23 @@ void Program::LoadAnimationsProject(const std::string &name)
 
     //анимации
     anim->Animations.clear();
-    std::int32_t anim_count = f.ReadInt32();
-    for (std::int32_t i = 0; i < anim_count; i++)
+    int32_t anim_count = f.ReadInt32();
+    for (int32_t i = 0; i < anim_count; i++)
     {
         std::shared_ptr<ObjectAnimation::Animation> a = std::make_shared<ObjectAnimation::Animation>();
         a->Name = f.ReadString();
 
         //кадры
-        std::int32_t frame_count = f.ReadInt32();
+        int32_t frame_count = f.ReadInt32();
         a->Frames = std::vector<std::shared_ptr<ObjectAnimation::Frame>>();
-        for (std::int32_t j = 0; j < frame_count; j++)
+        for (int32_t j = 0; j < frame_count; j++)
         {
             std::shared_ptr<ObjectAnimation::Frame> fr = std::make_shared<ObjectAnimation::Frame>();
 
             //композиции
-            std::int32_t comp_count = f.ReadInt32();
+            int32_t comp_count = f.ReadInt32();
             fr->Composition = std::vector<std::shared_ptr<ObjectAnimation::CompositionElement>>();
-            for (std::int32_t k = 0; k < comp_count; k++)
+            for (int32_t k = 0; k < comp_count; k++)
             {
                 std::shared_ptr<ObjectAnimation::CompositionElement> c = std::make_shared<ObjectAnimation::CompositionElement>();
                 c->ElemSprite = FindSprite(f.ReadString(), anim);
@@ -5263,14 +5263,14 @@ std::shared_ptr<Program::ObjectAnimation::Sprite> Program::FindSprite(const std:
 
 void Program::InitAnimation(const std::shared_ptr<GameObject> &obj, const std::string &name, bool hard_enable)
 {
-    std::int32_t i = 0;
+    int32_t i = 0;
     for (const auto &a : obj->Animations[sprite_mode]->Animations)
     {
         if (a->Name == name && (obj->CurrentAnimation != i || hard_enable))
         {
-            obj->CurrentAnimation = static_cast<std::uint8_t>(i);
+            obj->CurrentAnimation = static_cast<uint8_t>(i);
             obj->Frame = 0;
-            obj->AnimCounter = static_cast<std::uint8_t>(obj->Animations[sprite_mode]->Animations[i]->Frames[0]->Time);
+            obj->AnimCounter = static_cast<uint8_t>(obj->Animations[sprite_mode]->Animations[i]->Frames[0]->Time);
             obj->AnimationPlayed = true;
             GetObjSize(obj);
             break;
@@ -5279,13 +5279,13 @@ void Program::InitAnimation(const std::shared_ptr<GameObject> &obj, const std::s
     }
 }
 
-void Program::InitAnimation(const std::shared_ptr<GameObject> &obj, std::uint8_t id_anim, bool hard_enable)
+void Program::InitAnimation(const std::shared_ptr<GameObject> &obj, uint8_t id_anim, bool hard_enable)
 {
     if (obj->CurrentAnimation != id_anim || hard_enable)
     {
         obj->CurrentAnimation = id_anim;
         obj->Frame = 0;
-        obj->AnimCounter = static_cast<std::uint8_t>(obj->Animations[sprite_mode]->Animations[id_anim]->Frames[0]->Time);
+        obj->AnimCounter = static_cast<uint8_t>(obj->Animations[sprite_mode]->Animations[id_anim]->Frames[0]->Time);
         obj->AnimationPlayed = true;
         GetObjSize(obj);
     }
@@ -5317,7 +5317,7 @@ void Program::PlayAnimation(const std::shared_ptr<GameObject> &obj)
             return;
         }
     }
-    obj->AnimCounter = static_cast<std::uint8_t>(obj->Animations[sprite_mode]->Animations[obj->CurrentAnimation]->Frames[obj->Frame]->Time);
+    obj->AnimCounter = static_cast<uint8_t>(obj->Animations[sprite_mode]->Animations[obj->CurrentAnimation]->Frames[obj->Frame]->Time);
     std::string e = obj->Animations[sprite_mode]->Animations[obj->CurrentAnimation]->Frames[obj->Frame]->Event;
     GetObjSize(obj);
 
@@ -5400,7 +5400,7 @@ void Program::InitPlatformingStatusbar()
 {
     DrawScreen(statusbar, 12);
     InitIcon(im_none);
-    for (std::int32_t i = 0; i < 77; i++)
+    for (int32_t i = 0; i < 77; i++)
     {
         ResScaleCol(19 + i, 166);
         ResScaleCol(19 + i, 182);
@@ -5426,9 +5426,9 @@ void Program::InitLocation(bool boss)
 
     if (current_level != 5)
     {
-        std::int32_t name;
-        std::int32_t b = current_level - 1;
-        std::int32_t c = current_location - 1;
+        int32_t name;
+        int32_t b = current_level - 1;
+        int32_t c = current_location - 1;
         if (!boss_mode)
         {
             last_boss_fase = 0;
@@ -5480,7 +5480,7 @@ void Program::InitLocation(bool boss)
         LoadLocationProject(name);
 
 
-        std::int32_t prev_slot = start_slot;
+        int32_t prev_slot = start_slot;
         start_slot = 0;
 
         hero_object = CreateObject(idNova, 0, 0, false, true);
@@ -5559,8 +5559,8 @@ void Program::InitLocation(bool boss)
         disable_control = false;
 
         statusbar = InitScreensProject("j_bar");
-        std::int32_t i = 36;
-        std::int32_t m = 247;
+        int32_t i = 36;
+        int32_t m = 247;
         if (current_location != 1)
         {
             i++;
@@ -5589,7 +5589,7 @@ void Program::InitLocation(bool boss)
 void Program::InitDLCStatusbar()
 {
     DrawScreen(statusbar, 8);
-    for (std::int32_t i = 0; i < 77; i++)
+    for (int32_t i = 0; i < 77; i++)
     {
         ResScaleCol(19 + i, 166);
         ResScaleCol(19 + i, 182);
@@ -5665,9 +5665,9 @@ void Program::UpdatePlatforming()
     //эффект падения вниз
     if (secret_boss_enabled)
     {
-        for (std::int32_t j = 0; j < 10; j++)
+        for (int32_t j = 0; j < 10; j++)
         {
-            for (std::int32_t i = 0; i < 16; i++)
+            for (int32_t i = 0; i < 16; i++)
             {
                 if (fall_down_effect[i][j] == 1)
                 {
@@ -5839,16 +5839,16 @@ void Program::UpdatePlatforming()
                 else if (location_status == 2)
                 {
                     //взрыв колбы
-                    std::int32_t x = 7;
-                    std::int32_t y = 6;
+                    int32_t x = 7;
+                    int32_t y = 6;
                     if (current_level == 2)
                     {
                         y = 4;
                     }
-                    std::int32_t t = 250;
-                    for (std::int32_t j = 0; j < 3; j++)
+                    int32_t t = 250;
+                    for (int32_t j = 0; j < 3; j++)
                     {
-                        for (std::int32_t i = 0; i < 2; i++)
+                        for (int32_t i = 0; i < 2; i++)
                         {
                             NewTile(x + i, y + j, t);
                             t++;
@@ -5953,10 +5953,10 @@ void Program::LevelComlete()
     InitScene(current_level + 1);
 }
 
-void Program::InitIcon(std::int32_t command)
+void Program::InitIcon(int32_t command)
 {
     icon_mode = command;
-    std::int32_t scr = 4;
+    int32_t scr = 4;
     switch (command)
     {
     case im_damage:
@@ -5976,7 +5976,7 @@ void Program::UpdateIcon()
     if (icon_timer >= 3)
     {
         icon_timer = 0;
-        std::int32_t scr = 4;
+        int32_t scr = 4;
         if (current_suit != 0)
         {
             scr = 8;
@@ -6024,7 +6024,7 @@ void Program::UpdateIcon()
     }
 }
 
-void Program::InitFinalBoss(std::int32_t fase)
+void Program::InitFinalBoss(int32_t fase)
 {
     start_life = 77;
     start_energy = 77;
@@ -6337,7 +6337,7 @@ void Program::Nova(const std::shared_ptr<GameObject> &obj)
             anim = "Nova_RoofIdle";
         }
 
-        std::int32_t xt = obj->X & 15;
+        int32_t xt = obj->X & 15;
 
         //разворот
         if (!obj->NoInterruptAnim)
@@ -6404,7 +6404,7 @@ void Program::Nova(const std::shared_ptr<GameObject> &obj)
             if (!MoveObjectForward(obj, 4))
             {
                 //разрушаемые стены
-                std::int32_t d = obj->Width + 8;
+                int32_t d = obj->Width + 8;
                 if (obj->Direction)
                 {
                     d = -d;
@@ -6472,8 +6472,8 @@ void Program::Nova(const std::shared_ptr<GameObject> &obj)
             if (GetKey(Key_Jump) && !GetKey(Key_Down) && current_suit == 2 && in_water)
             {
                 anim = "Nova_Swim";
-                std::int32_t a = GetProperty(obj, obj->Width, obj->Height - 2);
-                std::int32_t b = GetProperty(obj, -obj->Width, obj->Height - 2);
+                int32_t a = GetProperty(obj, obj->Width, obj->Height - 2);
+                int32_t b = GetProperty(obj, -obj->Width, obj->Height - 2);
                 if (a != isFloor && b != isFloor)
                 {
                     obj->Y--;
@@ -6509,11 +6509,11 @@ void Program::Nova(const std::shared_ptr<GameObject> &obj)
                         {
                             if (xt < 8)
                             {
-                                pressed_keys = static_cast<std::uint8_t>(pressed_keys | Key_Right);
+                                pressed_keys = static_cast<uint8_t>(pressed_keys | Key_Right);
                             }
                             else
                             {
-                                pressed_keys = static_cast<std::uint8_t>(pressed_keys | Key_Left);
+                                pressed_keys = static_cast<uint8_t>(pressed_keys | Key_Left);
                             }
                         }
                     }
@@ -6538,7 +6538,7 @@ void Program::Nova(const std::shared_ptr<GameObject> &obj)
                 //ползёт вверх по стене
                 else if (on_wall && !GetKey(Key_Left + Key_Right))
                 {
-                    std::int32_t p = GetProperty(obj, 12, -40);
+                    int32_t p = GetProperty(obj, 12, -40);
                     if (p == isFloor || (p == isEmpty && GetProperty(obj, 12, -64) == isFloor))
                     {
                         if (GetProperty(obj, 0, -36) != isFloor)
@@ -6586,11 +6586,11 @@ void Program::Nova(const std::shared_ptr<GameObject> &obj)
                         {
                             if (xt < 8)
                             {
-                                pressed_keys = static_cast<std::uint8_t>(Key_Right);
+                                pressed_keys = static_cast<uint8_t>(Key_Right);
                             }
                             else
                             {
-                                pressed_keys = static_cast<std::uint8_t>(Key_Left);
+                                pressed_keys = static_cast<uint8_t>(Key_Left);
                             }
                         }
                     }
@@ -6617,7 +6617,7 @@ void Program::Nova(const std::shared_ptr<GameObject> &obj)
                     {
                         obj->Y++;
                         anim = "Nova_WallMove";
-                        std::int32_t a = GetProperty(obj, 0, 0);
+                        int32_t a = GetProperty(obj, 0, 0);
                         if (a == isFloor || a == isPlatform || a == isSpike || a == isShift)
                         {
                             on_wall = false;
@@ -6631,9 +6631,9 @@ void Program::Nova(const std::shared_ptr<GameObject> &obj)
                             on_wall = false;
                             on_roof = true;
 
-                            std::int32_t last_y = obj->Y;
+                            int32_t last_y = obj->Y;
                             obj->Y = (obj->Y & 0xfff0) + 9 + 16;
-                            std::int32_t q = 16;
+                            int32_t q = 16;
                             if (obj->Direction)
                             {
                                 q = -16;
@@ -6684,7 +6684,7 @@ void Program::Nova(const std::shared_ptr<GameObject> &obj)
                         obj->Direction = true;
                     }
 
-                    std::int32_t spd = 3;
+                    int32_t spd = 3;
                     if (on_roof)
                     {
                         spd--;
@@ -6698,7 +6698,7 @@ void Program::Nova(const std::shared_ptr<GameObject> &obj)
                         else if (on_roof)
                         {
                             anim = "Nova_RoofMove";
-                            std::int32_t q = GetProperty(obj, 2, -48);
+                            int32_t q = GetProperty(obj, 2, -48);
                             if (q != isFloor)
                             {
                                 if (q != isSpike)
@@ -6731,7 +6731,7 @@ void Program::Nova(const std::shared_ptr<GameObject> &obj)
                     }
                     else if (current_suit == 1 && GetProperty(obj, 12, -40) == isFloor && GetProperty(obj, 8, -36) != isFloor)
                     {
-                        std::int32_t q = 7;
+                        int32_t q = 7;
                         if (obj->Direction)
                         {
                             q++;
@@ -6760,7 +6760,7 @@ void Program::Nova(const std::shared_ptr<GameObject> &obj)
                     if (!GetLastKey(Key_Left + Key_Right) && on_wall && GetProperty(obj, -obj->Width - 4, obj->Height - 8) == isFloor && GetProperty(obj, -obj->Width - 4, obj->Height + 8) == isFloor)
                     {
                         ChangeDirection(obj);
-                        std::int32_t q = 7;
+                        int32_t q = 7;
                         if (obj->Direction)
                         {
                             q++;
@@ -6808,11 +6808,11 @@ void Program::Nova(const std::shared_ptr<GameObject> &obj)
     if (attack_cntr != 0)
     {
         anim = "Nova_Attack";
-        std::int32_t xw = 10;
-        std::int32_t yw = -20;
-        std::int32_t xd = 5;
-        std::int32_t yd = 0;
-        std::int32_t dir = 2;
+        int32_t xw = 10;
+        int32_t yw = -20;
+        int32_t xd = 5;
+        int32_t yd = 0;
+        int32_t dir = 2;
         if (GetKey(Key_Left + Key_Right))
         {
             if (GetKey(Key_Up))
@@ -6980,7 +6980,7 @@ void Program::DLCJacqueline(const std::shared_ptr<GameObject> &obj)
         is_jump = true;
     }
 
-    std::int32_t xt = obj->X & 15;
+    int32_t xt = obj->X & 15;
 
     //вверх по лестнице
     if (GetKey(Key_Up))
@@ -7004,11 +7004,11 @@ void Program::DLCJacqueline(const std::shared_ptr<GameObject> &obj)
                     {
                         if (xt < 8)
                         {
-                            pressed_keys = static_cast<std::uint8_t>(pressed_keys | Key_Right);
+                            pressed_keys = static_cast<uint8_t>(pressed_keys | Key_Right);
                         }
                         else
                         {
-                            pressed_keys = static_cast<std::uint8_t>(pressed_keys | Key_Left);
+                            pressed_keys = static_cast<uint8_t>(pressed_keys | Key_Left);
                         }
                     }
                 }
@@ -7045,11 +7045,11 @@ void Program::DLCJacqueline(const std::shared_ptr<GameObject> &obj)
                 {
                     if (xt < 8)
                     {
-                        pressed_keys = static_cast<std::uint8_t>(Key_Right);
+                        pressed_keys = static_cast<uint8_t>(Key_Right);
                     }
                     else
                     {
-                        pressed_keys = static_cast<std::uint8_t>(Key_Left);
+                        pressed_keys = static_cast<uint8_t>(Key_Left);
                     }
                 }
             }
@@ -7077,7 +7077,7 @@ void Program::DLCJacqueline(const std::shared_ptr<GameObject> &obj)
             obj->Direction = true;
         }
 
-        std::int32_t speed = 3;
+        int32_t speed = 3;
         if (in_water)
         {
             speed = 2;
@@ -7117,7 +7117,7 @@ void Program::DLCJacqueline(const std::shared_ptr<GameObject> &obj)
     //обработка выстрела
     if (attack_cntr != 0)
     {
-        std::int32_t high = -26;
+        int32_t high = -26;
         if (on_air || on_ladder)
         {
             anim = "JJumpShoot";
@@ -7190,15 +7190,15 @@ void Program::PowerUp(const std::shared_ptr<GameObject> &obj)
         obj->Counter = 0;
     }
 
-    std::int32_t i = obj->Type & 0x7f;
+    int32_t i = obj->Type & 0x7f;
     if (obj->Counter >= 113)
     {
         i += (obj->Counter & 15) / 4;
     }
     obj->XAccel = i;
 
-    std::int32_t d = 5;
-    std::int32_t e = 20;
+    int32_t d = 5;
+    int32_t e = 20;
     if (difficulty != 0)
     {
         d = 6;
@@ -7252,9 +7252,9 @@ void Program::PowerUp(const std::shared_ptr<GameObject> &obj)
             }
             break;
         case idStar:
-            collected_stars |= (static_cast<std::uint64_t>(1) << obj->Status);
+            collected_stars |= (static_cast<uint64_t>(1) << obj->Status);
             stars_num++;
-            noreaded_stars |= (static_cast<std::uint64_t>(1) << (stars_num - 1));
+            noreaded_stars |= (static_cast<uint64_t>(1) << (stars_num - 1));
             DrawScreen(statusbar, 14);
             InitSFX(sfx_star);
             RemoveObject(obj);
@@ -7297,8 +7297,8 @@ void Program::MultiExplosions(const std::shared_ptr<GameObject> &obj)
 
     obj->Counter--;
 
-    std::int32_t x = rnd->Next() & 31 - 15;
-    std::int32_t y = rnd->Next() & 31 - 15;
+    int32_t x = rnd->Next() & 31 - 15;
+    int32_t y = rnd->Next() & 31 - 15;
     if ((obj->Counter & 15) == 0)
     {
         CreateExplosion(obj, x, y);
@@ -7310,9 +7310,9 @@ void Program::Blower(const std::shared_ptr<GameObject> &obj)
     obj->Counter = (obj->Counter + 1) & 0xff;
     if (obj->Counter < 128 || obj->Status == 0)
     {
-        std::int32_t x = obj->XTile;
-        std::int32_t y = obj->YTile;
-        std::int32_t i = game_cicle_counter / 2;
+        int32_t x = obj->XTile;
+        int32_t y = obj->YTile;
+        int32_t i = game_cicle_counter / 2;
         if ((obj->Counter < 20 || obj->Counter >= 104) && obj->Status != 0)
         {
             i = i / 2;
@@ -7387,7 +7387,7 @@ void Program::Bumerang(const std::shared_ptr<GameObject> &obj)
         }
     }
 
-    std::int32_t speed = std::min(4, obj->YAccel / 4);
+    int32_t speed = std::min(4, obj->YAccel / 4);
     if (obj->X != obj->XTarget && obj->Y != obj->YTarget)
     {
         speed = std::min(3, speed);
@@ -7431,7 +7431,7 @@ void Program::Bumerang(const std::shared_ptr<GameObject> &obj)
     }
 
     //столкнулся со стеной
-    std::int32_t a = GetProperty(obj, 0, 0);
+    int32_t a = GetProperty(obj, 0, 0);
     if (a == isFloor || a == isShift || a == isSpike)
     {
         if (a == isFloor && (GetFullProperty(obj, 0, 0) & 0x10) != 0)
@@ -7466,8 +7466,8 @@ void Program::Wave(const std::shared_ptr<GameObject> &obj)
     //разрушаемые тайлы
     if (!in_boss_room)
     {
-        std::int32_t x = obj->X / 16;
-        std::int32_t y = obj->Y / 16;
+        int32_t x = obj->X / 16;
+        int32_t y = obj->Y / 16;
 
         if (x < 1 || x >= 127)
         {
@@ -7479,13 +7479,13 @@ void Program::Wave(const std::shared_ptr<GameObject> &obj)
         }
         x--;
         y--;
-        std::int32_t dx = -16;
-        std::int32_t dy = -16;
-        for (std::int32_t j = 0; j < 3; j++)
+        int32_t dx = -16;
+        int32_t dy = -16;
+        for (int32_t j = 0; j < 3; j++)
         {
-            for (std::int32_t i = 0; i < 3; i++)
+            for (int32_t i = 0; i < 3; i++)
             {
-                std::int32_t p = TilesetProperty[ Loc[x][y] ];
+                int32_t p = TilesetProperty[ Loc[x][y] ];
                 if (((p >> 5) & 7) == isFloor && (p & 0x10) != 0)
                 {
                     CreateExplosion(obj, dx, dy);
@@ -7507,8 +7507,8 @@ void Program::Wave(const std::shared_ptr<GameObject> &obj)
 
 void Program::Platform(const std::shared_ptr<GameObject> &obj)
 {
-    std::int32_t xoffset = 0;
-    std::int32_t yoffset = 0;
+    int32_t xoffset = 0;
+    int32_t yoffset = 0;
 
     //движение по рельсам
     if (obj->XAccel != 0)
@@ -7584,10 +7584,10 @@ void Program::Platform(const std::shared_ptr<GameObject> &obj)
                     o->YAccel = 0;
                 }
                 o->Y = obj->Y + yoffset;
-                std::int32_t a = (GetFullProperty(o, o->Width + 1, o->Height) >> 5) & 7;
-                std::int32_t b = (GetFullProperty(o, o->Width + 1, -1) >> 5) & 7;
-                std::int32_t c = (GetFullProperty(o, -o->Width - 1, o->Height) >> 5) & 7;
-                std::int32_t d = (GetFullProperty(o, -o->Width - 1, -1) >> 5) & 7;
+                int32_t a = (GetFullProperty(o, o->Width + 1, o->Height) >> 5) & 7;
+                int32_t b = (GetFullProperty(o, o->Width + 1, -1) >> 5) & 7;
+                int32_t c = (GetFullProperty(o, -o->Width - 1, o->Height) >> 5) & 7;
+                int32_t d = (GetFullProperty(o, -o->Width - 1, -1) >> 5) & 7;
                 if ((xoffset >= 1 && a != isFloor && b != isFloor) || (xoffset < 0 && c != isFloor && d != isFloor))
                 {
                     o->X += xoffset;
@@ -7646,7 +7646,7 @@ void Program::Fraction(const std::shared_ptr<GameObject> &obj)
     {
         obj->Counter--;
     }
-    std::int32_t i = GetProperty(obj, 0, 0);
+    int32_t i = GetProperty(obj, 0, 0);
     if (i == isFloor || i == isSpike || i == isPlatform || i == isShift || obj->Counter == 0)
     {
         RemoveObject(obj);
@@ -7676,7 +7676,7 @@ void Program::Door(const std::shared_ptr<GameObject> &obj)
         return;
     }
 
-    std::int32_t d = GetXDistance(obj);
+    int32_t d = GetXDistance(obj);
     if (GetKey(Key_Up) == true && d < 16 && GetYDistance(obj) < 3)
     {
         hero_object->Y = obj->Y;
@@ -7875,7 +7875,7 @@ void Program::Dron(const std::shared_ptr<GameObject> &obj)
     {
         if (SeeOnHero(obj))
         {
-            std::int32_t h = obj->Y - hero_object->Y + 16;
+            int32_t h = obj->Y - hero_object->Y + 16;
             if (h < 0)
             {
                 if (!FlyDown(obj))
@@ -8040,7 +8040,7 @@ void Program::Piranha(const std::shared_ptr<GameObject> &obj)
     {
         anim = "Piranha_Swim";
     }
-    std::int32_t speed = 2;
+    int32_t speed = 2;
 
     if (SeeOnHero(obj) && GetXDistance(obj) < 64 && GetYDistance(obj) < 32)
     {
@@ -8165,8 +8165,8 @@ void Program::Jelly(const std::shared_ptr<GameObject> &obj)
 
 void Program::SpiderNest(const std::shared_ptr<GameObject> &obj)
 {
-    std::int32_t x = obj->XTile - 1;
-    std::int32_t y = obj->YTile - 2;
+    int32_t x = obj->XTile - 1;
+    int32_t y = obj->YTile - 2;
 
     //повреждение
     if (!obj->isDamageable)
@@ -8188,7 +8188,7 @@ void Program::SpiderNest(const std::shared_ptr<GameObject> &obj)
         return;
     }
 
-    std::int32_t i = (game_cicle_counter >> 2) & 3;
+    int32_t i = (game_cicle_counter >> 2) & 3;
     NewTile(x, y, 21 + i);
     NewTile(x + 1, y, 25);
     NewTile(x, y + 1, 26 + ((i >> 1) & 1));
@@ -8200,7 +8200,7 @@ void Program::SpiderNest(const std::shared_ptr<GameObject> &obj)
     }
 
     //считаем кол-во пауков на экране
-    std::int32_t c = 0;
+    int32_t c = 0;
     for (const auto &o : actual_objects)
     {
         if (o->Name == idSpider)
@@ -8568,7 +8568,7 @@ void Program::Slime(const std::shared_ptr<GameObject> &obj)
         CreateExplosion(obj, 0, 0);
         if (obj->Life != 0)
         {
-            for (std::int32_t i = 0; i < 2; i++)
+            for (int32_t i = 0; i < 2; i++)
             {
                 std::shared_ptr<GameObject> o = CreateChild(obj, idSlime, 0, 0);
                 o->Animations = FindObjectAnimation("Slime");
@@ -9090,8 +9090,8 @@ void Program::FlyBoss(const std::shared_ptr<GameObject> &obj)
         }
     }
 
-    std::int32_t dx = GetXDistance(obj);
-    std::int32_t dy = std::abs(obj->Y - hero_object->Y);
+    int32_t dx = GetXDistance(obj);
+    int32_t dy = std::abs(obj->Y - hero_object->Y);
     if (obj->haveGravity || obj->Status == 2)
     {
         if (!on_air)
@@ -9258,7 +9258,7 @@ void Program::AlienPet(const std::shared_ptr<GameObject> &obj)
     std::string anim = "";
     bool hard_anim = false;
 
-    std::int32_t dx = std::abs(obj->X - obj->XTarget);
+    int32_t dx = std::abs(obj->X - obj->XTarget);
     if (!on_air)
     {
         if (obj->Status == 0)
@@ -9513,7 +9513,7 @@ void Program::Megabrain(const std::shared_ptr<GameObject> &obj)
                 obj->Status++;
             }
 
-            std::int32_t n = obj->Status / 4;
+            int32_t n = obj->Status / 4;
             if (n >= 5)
             {
                 n = 4;
@@ -9554,12 +9554,12 @@ void Program::Megabrain(const std::shared_ptr<GameObject> &obj)
                 obj->Counter = 60;
                 if (ObjectsCount(idMiniBrain) < 3)
                 {
-                    std::int32_t x = -96;
+                    int32_t x = -96;
                     if ((rnd->Next() & 1) == 0)
                     {
                         x = 80;
                     }
-                    std::int32_t y = -32;
+                    int32_t y = -32;
                     if ((rnd->Next() & 1) == 0)
                     {
                         y = 40;
@@ -9664,13 +9664,13 @@ void Program::Rocket(const std::shared_ptr<GameObject> &obj)
     {
         obj->Counter = 4 + (rnd->Next() & 3);
 
-        std::int32_t d;
-        std::int32_t x = obj->X - hero_object->X;
+        int32_t d;
+        int32_t x = obj->X - hero_object->X;
         if (std::abs(x) < 8)
         {
             x = 0;
         }
-        std::int32_t y = obj->Y - (hero_object->Y + hero_object->Height + 8);
+        int32_t y = obj->Y - (hero_object->Y + hero_object->Height + 8);
         if (std::abs(y) < 16)
         {
             y = 0;
@@ -9718,7 +9718,7 @@ void Program::Rocket(const std::shared_ptr<GameObject> &obj)
             }
         }
 
-        std::int32_t a;
+        int32_t a;
         if (d >= 5)
         {
             a = 8 - d;
@@ -9796,8 +9796,8 @@ void Program::MiniBrain(const std::shared_ptr<GameObject> &obj)
 
     if ((game_cicle_counter & 1) == 0)
     {
-        std::int32_t dx = obj->X - hero_object->X;
-        std::int32_t dy = obj->Y - hero_object->Y + 20;
+        int32_t dx = obj->X - hero_object->X;
+        int32_t dy = obj->Y - hero_object->Y + 20;
         if (dx >= 1)
         {
             obj->X--;
@@ -9861,17 +9861,17 @@ void Program::FlyBomb(const std::shared_ptr<GameObject> &obj)
     }
 }
 
-void Program::Magnit(const std::shared_ptr<GameObject> &obj, std::int32_t x_dist, std::int32_t x_area, std::int32_t x_force)
+void Program::Magnit(const std::shared_ptr<GameObject> &obj, int32_t x_dist, int32_t x_area, int32_t x_force)
 {
     for (const auto &o : actual_objects)
     {
         if ((o->Name == idNova && !on_roof && !on_wall) || o->Name == idBubble)
         {
-            std::int32_t dx = obj->X - o->X + 8;
+            int32_t dx = obj->X - o->X + 8;
             if (std::abs(dx) >= x_dist && std::abs(dx) < x_area)
             {
                 bool t = o->Direction;
-                std::uint8_t n = o->Name;
+                uint8_t n = o->Name;
                 o->Name = 0;
                 if (dx >= 0)
                 {
@@ -9893,14 +9893,14 @@ void Program::Magnit(const std::shared_ptr<GameObject> &obj, std::int32_t x_dist
     }
 }
 
-void Program::BubbleGenerator(const std::shared_ptr<GameObject> &obj, std::int32_t xoffset, std::int32_t yoffset)
+void Program::BubbleGenerator(const std::shared_ptr<GameObject> &obj, int32_t xoffset, int32_t yoffset)
 {
     if (graphics_quality == 0)
     {
         return;
     }
 
-    std::int32_t max = 3;
+    int32_t max = 3;
     if (graphics_quality == 2)
     {
         max = 8;
@@ -9986,7 +9986,7 @@ void Program::DLCPowerUp(const std::shared_ptr<GameObject> &obj)
         obj->Counter = 0;
     }
 
-    std::int32_t i = obj->Type & 0x7f;
+    int32_t i = obj->Type & 0x7f;
     if (obj->Counter >= 113)
     {
         i += (obj->Counter & 15) / 4;
@@ -10101,8 +10101,8 @@ void Program::Dragon(const std::shared_ptr<GameObject> &obj)
     }
 }
 
-std::int32_t Program::screen_width = 0;
-std::int32_t Program::screen_height = 0;
+int32_t Program::screen_width = 0;
+int32_t Program::screen_height = 0;
 double Program::screen_scale = 3;
 bool Program::full_screen_mode = false;
 bool Program::prev_full_screen_mode = true;
@@ -10177,8 +10177,8 @@ void Program::Quit(void *, QuitEventArgs *)
     Events::QuitApplication();
 }
 
-std::int32_t Program::x_screen_home = 16;
-std::int32_t Program::y_screen_home = 16;
+int32_t Program::x_screen_home = 16;
+int32_t Program::y_screen_home = 16;
 
 void Program::Update(void *, TickEventArgs *)
 {
@@ -10205,7 +10205,7 @@ void Program::Update(void *, TickEventArgs *)
     {
         kempston_ax_v = kempston->GetAxisPosition(JoystickAxis::Vertical);
         kempston_ax_h = kempston->GetAxisPosition(JoystickAxis::Horizontal);
-        for (std::int32_t i = 0; i < kempston->NumberOfButtons(); i++)
+        for (int32_t i = 0; i < kempston->NumberOfButtons(); i++)
         {
             kempston_btns[i] = kempston->GetButtonState(i);
         }
@@ -10218,13 +10218,13 @@ void Program::Update(void *, TickEventArgs *)
     {
         Size win;
         Environment::PrimaryScreen::Size(win.Width, win.Height);
-        std::int32_t sx = win.Width / 256;
-        std::int32_t sy = win.Height / 192;
+        int32_t sx = win.Width / 256;
+        int32_t sy = win.Height / 192;
         s = static_cast<double>(std::min(sx, sy));
     }
 
     Surface sur = screen->CreateScaledSurface(s);
-    Video::Screen().Blit(sur, Point(static_cast<std::int32_t>(x_screen_home * s), static_cast<std::int32_t>(y_screen_home * s)));
+    Video::Screen().Blit(sur, Point(static_cast<int32_t>(x_screen_home * s), static_cast<int32_t>(y_screen_home * s)));
     Video::Screen().Update();
     sur.Dispose();
 }
@@ -10268,44 +10268,44 @@ void Program::KeyboardDown(void *, KeyboardEventArgs *e)
 
     if (key == KeysMap[0])
     {
-        PressedKeysStatus = static_cast<std::uint8_t>(PressedKeysStatus | Key_Up);
+        PressedKeysStatus = static_cast<uint8_t>(PressedKeysStatus | Key_Up);
     }
     if (key == KeysMap[1])
     {
-        PressedKeysStatus = static_cast<std::uint8_t>(PressedKeysStatus | Key_Down);
+        PressedKeysStatus = static_cast<uint8_t>(PressedKeysStatus | Key_Down);
     }
     if (key == KeysMap[2])
     {
-        PressedKeysStatus = static_cast<std::uint8_t>(PressedKeysStatus | Key_Left);
+        PressedKeysStatus = static_cast<uint8_t>(PressedKeysStatus | Key_Left);
     }
     if (key == KeysMap[3])
     {
-        PressedKeysStatus = static_cast<std::uint8_t>(PressedKeysStatus | Key_Right);
+        PressedKeysStatus = static_cast<uint8_t>(PressedKeysStatus | Key_Right);
     }
     if (key == KeysMap[4])
     {
-        PressedKeysStatus = static_cast<std::uint8_t>(PressedKeysStatus | Key_Select);
+        PressedKeysStatus = static_cast<uint8_t>(PressedKeysStatus | Key_Select);
     }
     if (key == KeysMap[5])
     {
-        PressedKeysStatus = static_cast<std::uint8_t>(PressedKeysStatus | Key_Fire);
+        PressedKeysStatus = static_cast<uint8_t>(PressedKeysStatus | Key_Fire);
     }
     if (key == KeysMap[6])
     {
-        PressedKeysStatus = static_cast<std::uint8_t>(PressedKeysStatus | Key_Jump);
+        PressedKeysStatus = static_cast<uint8_t>(PressedKeysStatus | Key_Jump);
     }
     if (key == KeysMap[7])
     {
-        PressedKeysStatus = static_cast<std::uint8_t>(PressedKeysStatus | Key_Pause);
+        PressedKeysStatus = static_cast<uint8_t>(PressedKeysStatus | Key_Pause);
     }
 
-    pressed_key_symbol = static_cast<std::int32_t>(key);
+    pressed_key_symbol = static_cast<int32_t>(key);
     pressed_key = key;
 #ifndef NOT_PORTED_YET
-    if (pressed_key_symbol > static_cast<std::int32_t>('9'))
+    if (pressed_key_symbol > static_cast<int32_t>('9'))
     {
         //C# TO C++ CONVERTER TODO TASK: There is no C++ equivalent to 'ToString':
-        pressed_key_symbol = static_cast<std::int32_t>(key.ToString().ToUpper()[0]);
+        pressed_key_symbol = static_cast<int32_t>(key.ToString().ToUpper()[0]);
     }
 #endif
     if ((key >= Key::Zero && key <= Key::Nine)
@@ -10441,7 +10441,7 @@ void Program::KeyboardDown(void *, KeyboardEventArgs *e)
 
         if (game_mode == select_level_mode && current_level < 4)
         {
-            std::uint8_t a = static_cast<std::uint8_t>(1 << (current_level - 1));
+            uint8_t a = static_cast<uint8_t>(1 << (current_level - 1));
             levels_complete |= a;
             if (levels_complete == 7)
             {
@@ -10483,55 +10483,55 @@ void Program::KeyboardUp(void *, KeyboardEventArgs *e)
 {
     if (e->Key() == KeysMap[0])
     {
-        PressedKeysStatus = static_cast<std::uint8_t>(PressedKeysStatus & (~Key_Up));
+        PressedKeysStatus = static_cast<uint8_t>(PressedKeysStatus & (~Key_Up));
     }
     if (e->Key() == KeysMap[1])
     {
-        PressedKeysStatus = static_cast<std::uint8_t>(PressedKeysStatus & (~Key_Down));
+        PressedKeysStatus = static_cast<uint8_t>(PressedKeysStatus & (~Key_Down));
     }
     if (e->Key() == KeysMap[2])
     {
-        PressedKeysStatus = static_cast<std::uint8_t>(PressedKeysStatus & (~Key_Left));
+        PressedKeysStatus = static_cast<uint8_t>(PressedKeysStatus & (~Key_Left));
     }
     if (e->Key() == KeysMap[3])
     {
-        PressedKeysStatus = static_cast<std::uint8_t>(PressedKeysStatus & (~Key_Right));
+        PressedKeysStatus = static_cast<uint8_t>(PressedKeysStatus & (~Key_Right));
     }
     if (e->Key() == KeysMap[4])
     {
-        PressedKeysStatus = static_cast<std::uint8_t>(PressedKeysStatus & (~Key_Select));
+        PressedKeysStatus = static_cast<uint8_t>(PressedKeysStatus & (~Key_Select));
     }
     if (e->Key() == KeysMap[5])
     {
-        PressedKeysStatus = static_cast<std::uint8_t>(PressedKeysStatus & (~Key_Fire));
+        PressedKeysStatus = static_cast<uint8_t>(PressedKeysStatus & (~Key_Fire));
     }
     if (e->Key() == KeysMap[6])
     {
-        PressedKeysStatus = static_cast<std::uint8_t>(PressedKeysStatus & (~Key_Jump));
+        PressedKeysStatus = static_cast<uint8_t>(PressedKeysStatus & (~Key_Jump));
     }
     if (e->Key() == KeysMap[7])
     {
-        PressedKeysStatus = static_cast<std::uint8_t>(PressedKeysStatus & (~Key_Pause));
+        PressedKeysStatus = static_cast<uint8_t>(PressedKeysStatus & (~Key_Pause));
     }
     if (e->Key() == Key::UpArrow)
     {
-        PressedKeysStatus = static_cast<std::uint8_t>(PressedKeysStatus & (~Key_Up));
+        PressedKeysStatus = static_cast<uint8_t>(PressedKeysStatus & (~Key_Up));
     }
     if (e->Key() == Key::DownArrow)
     {
-        PressedKeysStatus = static_cast<std::uint8_t>(PressedKeysStatus & (~Key_Down));
+        PressedKeysStatus = static_cast<uint8_t>(PressedKeysStatus & (~Key_Down));
     }
     if (e->Key() == Key::LeftArrow)
     {
-        PressedKeysStatus = static_cast<std::uint8_t>(PressedKeysStatus & (~Key_Left));
+        PressedKeysStatus = static_cast<uint8_t>(PressedKeysStatus & (~Key_Left));
     }
     if (e->Key() == Key::RightArrow)
     {
-        PressedKeysStatus = static_cast<std::uint8_t>(PressedKeysStatus & (~Key_Right));
+        PressedKeysStatus = static_cast<uint8_t>(PressedKeysStatus & (~Key_Right));
     }
     if (e->Key() == Key::Escape)
     {
-        PressedKeysStatus = static_cast<std::uint8_t>(PressedKeysStatus & (~Key_Pause));
+        PressedKeysStatus = static_cast<uint8_t>(PressedKeysStatus & (~Key_Pause));
     }
 }
 
@@ -10543,23 +10543,23 @@ void Program::InitVideo()
         Size win;
         Environment::PrimaryScreen::Size(win.Width, win.Height);
 
-        std::int32_t sx = win.Width / 256;
-        std::int32_t sy = win.Height / 192;
+        int32_t sx = win.Width / 256;
+        int32_t sy = win.Height / 192;
         s = static_cast<double>(std::min(sx, sy));
         screen_width = win.Width;
         screen_height = win.Height;
-        x_screen_home = static_cast<std::int32_t>((screen_width - 256 * s) / 2 / s);
-        y_screen_home = static_cast<std::int32_t>((screen_height - 192 * s) / 2 / s);
+        x_screen_home = static_cast<int32_t>((screen_width - 256 * s) / 2 / s);
+        y_screen_home = static_cast<int32_t>((screen_height - 192 * s) / 2 / s);
     }
     else
     {
-        screen_width = static_cast<std::int32_t>(288 * s);
-        screen_height = static_cast<std::int32_t>(224 * s);
+        screen_width = static_cast<int32_t>(288 * s);
+        screen_height = static_cast<int32_t>(224 * s);
         x_screen_home = 16;
         y_screen_home = 16;
     }
     Video::Initialize();
-    std::int32_t bpp = Video::BestBitsPerPixel(screen_width, screen_height, full_screen_mode);
+    int32_t bpp = Video::BestBitsPerPixel(screen_width, screen_height, full_screen_mode);
     Video::SetVideoMode(screen_width, screen_height, bpp, true, false, full_screen_mode, true);
 }
 
@@ -10578,8 +10578,8 @@ void Program::VideoResize(void *, VideoResizeEventArgs *e)
         x = std::max(x, 288.0);
         y = std::max(y, 224.0);
 
-        std::int32_t dx = std::abs(screen_width  - e->Width());
-        std::int32_t dy = std::abs(screen_height - e->Height());
+        int32_t dx = std::abs(screen_width  - e->Width());
+        int32_t dy = std::abs(screen_height - e->Height());
 
         if (dx > dy)
         {
@@ -10603,7 +10603,7 @@ void Program::SaveSettings()
 
         f.Write(current_save_version);
 
-        for (std::int32_t i = 0; i < 8; i++)
+        for (int32_t i = 0; i < 8; i++)
         {
             std::shared_ptr<joy_button> k = kempston_buttons[i];
             f.Write(k->isAxis);
@@ -10622,7 +10622,7 @@ void Program::SaveSettings()
 
 void Program::LoadSettings()
 {
-    for (std::int32_t i = 0; i < 8; i++)
+    for (int32_t i = 0; i < 8; i++)
     {
         kempston_buttons[i] = std::make_shared<joy_button>();
     }
@@ -10638,7 +10638,7 @@ void Program::LoadSettings()
             return;
         }
 
-        for (std::int32_t i = 0; i < 8; i++)
+        for (int32_t i = 0; i < 8; i++)
         {
             std::shared_ptr<joy_button> k = std::make_shared<joy_button>();
             k->isAxis        = f.ReadBoolean();
@@ -10735,7 +10735,7 @@ void Program::InitRace()
 
     ClearScreen();
     DrawScreen(race_imgs, 0);
-    for (std::int32_t i = 0; i < 77; i++)
+    for (int32_t i = 0; i < 77; i++)
     {
         ResScaleCol(19 + i, 6);
         ResScaleCol(160 + i, 6);
@@ -10800,7 +10800,7 @@ void Program::UpdateRace()
         return;
     }
 
-    for (std::int32_t i = 0; i < 2; i++)
+    for (int32_t i = 0; i < 2; i++)
     {
         hero_life_current = UpdateBar(hero_life_current, hero_object->Life, 19, 6);
     }
@@ -10810,7 +10810,7 @@ void Program::UpdateRace()
     hero_path = race_pos / 16;
 
     //мигание красной лампочки при низком уровне жизни
-    std::int32_t alert = 1;
+    int32_t alert = 1;
     if (hero_object->Life != 0 && hero_object->Life < 15 && (race_pos & 2) == 0)
     {
         alert++;
@@ -10857,7 +10857,7 @@ void Program::UpdateRace()
     //спавним объект
     if (game_cicle_counter == 0 && race_turn_counter == 0)
     {
-        std::int32_t t = trace[trace_pos];
+        int32_t t = trace[trace_pos];
         if (t != 0 && trace_pause == 0)
         {
             //пауза
@@ -10887,7 +10887,7 @@ void Program::UpdateRace()
             //блоки и трамплины
             else if ((t & (t_left + t_right + t_center)) != 0)
             {
-                std::int32_t i = 0;
+                int32_t i = 0;
                 while (race_objects[i] != 0)
                 {
                     i += 2;
@@ -10906,7 +10906,7 @@ void Program::UpdateRace()
     }
 
     //обработка объектов
-    for (std::int32_t i = 0; i < 32; i += 2)
+    for (int32_t i = 0; i < 32; i += 2)
     {
         race_objects[i + 1]++;
         if (race_objects[i + 1] == 12)
@@ -10916,13 +10916,13 @@ void Program::UpdateRace()
     }
 
     //вывод объектов
-    std::int32_t o = 30;
+    int32_t o = 30;
     while (o >= 0)
     {
         if (race_objects[o] != 0)
         {
-            std::int32_t obst = race_objects[o];
-            std::int32_t dist = race_objects[o + 1];
+            int32_t obst = race_objects[o];
+            int32_t dist = race_objects[o + 1];
 
             if (dist < 0)
             {
@@ -10935,7 +10935,7 @@ void Program::UpdateRace()
 
             if (obst != 0)
             {
-                std::int32_t s = 34;
+                int32_t s = 34;
                 if ((obst & t_tramplin) != 0)
                 {
                     s = 70;
@@ -10957,7 +10957,7 @@ void Program::UpdateRace()
                 //взаимодействие элементов дороги с мотоциклом
                 if (dist == 11 && hero_object->Life != 0 && bike_y_offset == 0 && bike_y_pos >= 184 && bike_y_pos < 192)
                 {
-                    std::int32_t pos = 4;
+                    int32_t pos = 4;
                     if (hero_object->X >= 81 && hero_object->X < 175)
                     {
                         pos = 2;
@@ -11074,7 +11074,7 @@ void Program::UpdateRace()
 
     //гравитация Новы
     bike_y_accel++;
-    std::int32_t last = bike_y_offset;
+    int32_t last = bike_y_offset;
     bike_y_offset -= (bike_y_accel * 2);
 
     if (bike_y_offset < 0)
@@ -11165,7 +11165,7 @@ void Program::UpdateRace()
     }
 }
 
-void Program::DecLife(const std::shared_ptr<GameObject> &obj, std::int32_t value)
+void Program::DecLife(const std::shared_ptr<GameObject> &obj, int32_t value)
 {
     if (immortal_mode)
     {
@@ -11178,7 +11178,7 @@ void Program::DecLife(const std::shared_ptr<GameObject> &obj, std::int32_t value
     }
 }
 
-void Program::InitScene(std::int32_t num)
+void Program::InitScene(int32_t num)
 {
     MuteAllMusic();
     SetBorder(Color::Black);
@@ -11411,7 +11411,7 @@ void Program::UpdateScene()
         }
         if (scene_status >= 5)
         {
-            std::int32_t n = 7;
+            int32_t n = 7;
             switch ((game_cicle_counter >> 1) & 3)
             {
             case 0:
@@ -11456,7 +11456,7 @@ void Program::UpdateScene()
                 DrawScreen(scene_scr, 16);
             }
 
-            std::int32_t e = 45;
+            int32_t e = 45;
             if (scene_status == 0)
             {
                 e = 135;
@@ -11492,7 +11492,7 @@ void Program::UpdateScene()
         //город
         else if (scene_status == 4)
         {
-            std::int32_t n = (game_cicle_counter >> 1) & 3;
+            int32_t n = (game_cicle_counter >> 1) & 3;
             if (n == 3)
             {
                 n = 1;
@@ -11543,7 +11543,7 @@ void Program::UpdateScene()
                 game_cicle_counter = 0;
             }
 
-            std::int32_t e = 195;
+            int32_t e = 195;
             if (scene_status == 9)
             {
                 e = 230;
@@ -11572,8 +11572,8 @@ void Program::UpdateScene()
     //финальный босс
     else if (scene_num >= 6 && scene_num < 9)
     {
-        std::int32_t f = scene_num - 6;
-        std::int32_t n = (game_cicle_counter >> 1) & 3;
+        int32_t f = scene_num - 6;
+        int32_t n = (game_cicle_counter >> 1) & 3;
         if (n == 3)
         {
             n = 1;
@@ -11624,7 +11624,7 @@ void Program::UpdateScene()
     //финалкат
     else if (scene_num == 9)
     {
-        std::int32_t n = (game_cicle_counter >> 1) & 3;
+        int32_t n = (game_cicle_counter >> 1) & 3;
         if (n == 3)
         {
             n = 1;
@@ -11660,7 +11660,7 @@ void Program::UpdateScene()
         //мелкие взрывы
         else if (scene_status == 2)
         {
-            std::int32_t c = scene_cntr / 2;
+            int32_t c = scene_cntr / 2;
             if (c < 16)
             {
                 if (c >= 12)
@@ -11682,8 +11682,8 @@ void Program::UpdateScene()
         //два больших взрыва
         else if (scene_status == 3 || scene_status == 4)
         {
-            std::int32_t b = (scene_status - 3) * 5;
-            std::int32_t c = scene_cntr / 2;
+            int32_t b = (scene_status - 3) * 5;
+            int32_t c = scene_cntr / 2;
 
             if (c < 5)
             {
@@ -11770,7 +11770,7 @@ void Program::UpdateScene()
         {
             if (scene_cntr >= 10 && scene_cntr < 21)
             {
-                std::int32_t b = (scene_cntr - 10) / 2;
+                int32_t b = (scene_cntr - 10) / 2;
                 DrawScreen(scene_scr, b + 58);
             }
             else if (scene_cntr >= 38 && scene_cntr < 60)
@@ -11795,7 +11795,7 @@ void Program::UpdateScene()
             }
             else if (scene_cntr >= 10 && scene_cntr < 47)
             {
-                std::int32_t b = (scene_cntr - 10) / 2;
+                int32_t b = (scene_cntr - 10) / 2;
                 DrawScreen(scene_scr, b + 68);
             }
             else if (scene_cntr == 47)
@@ -11833,7 +11833,7 @@ void Program::UpdateScene()
 
             if ((game_cicle_counter & 1) == 1)
             {
-                std::int32_t p = PrintStringLine();
+                int32_t p = PrintStringLine();
                 text_counter = (text_counter + 1) & 7;
                 if (text_counter == 0)
                 {
@@ -11845,7 +11845,7 @@ void Program::UpdateScene()
             if (texts[text_pos] == 255)
             {
                 ClearScreen();
-                std::int32_t tn = 25;
+                int32_t tn = 25;
                 if (no_suit_run)
                 {
                     tn = 86;
@@ -11868,7 +11868,7 @@ void Program::UpdateScene()
             {
                 if ((game_cicle_counter & 1) == 1)
                 {
-                    std::int32_t p = PrintStringLine();
+                    int32_t p = PrintStringLine();
                     text_counter = (text_counter + 1) & 7;
                     if (text_counter == 0)
                     {
@@ -11906,7 +11906,7 @@ std::shared_ptr<Program::ScreensProject> Program::InitScreensProject(const std::
 {
     std::string smprojFile;
 
-    std::int32_t len = 9;
+    int32_t len = 9;
     if (tiles_mode == 0)
     {
         smprojFile = "classic_" + name;
@@ -11928,12 +11928,12 @@ std::shared_ptr<Program::ScreensProject> Program::InitScreensProject(const std::
         proj.ReadInt32();
     }
 
-    std::int32_t tiles_count = proj.ReadInt32();
+    int32_t tiles_count = proj.ReadInt32();
     obj->Tileset.clear();
-    for (std::int32_t i = 0; i < tiles_count; i++)
+    for (int32_t i = 0; i < tiles_count; i++)
     {
-        std::vector<std::uint8_t> data(len);
-        for (std::int32_t j = 0; j < len; j++)
+        std::vector<uint8_t> data(len);
+        for (int32_t j = 0; j < len; j++)
         {
             data[j] = proj.ReadByte();
         }
@@ -11941,9 +11941,9 @@ std::shared_ptr<Program::ScreensProject> Program::InitScreensProject(const std::
     }
 
     //загружаем спрайты
-    std::int32_t spr_count = proj.ReadInt32();
+    int32_t spr_count = proj.ReadInt32();
     obj->Sprites.clear();
-    for (std::int32_t i = 0; i < spr_count; i++)
+    for (int32_t i = 0; i < spr_count; i++)
     {
         std::shared_ptr<Sprite> spr = std::make_shared<Sprite>();
         spr->name   = proj.ReadString();
@@ -11951,9 +11951,9 @@ std::shared_ptr<Program::ScreensProject> Program::InitScreensProject(const std::
         spr->height = proj.ReadInt32();
 
         spr->tiles = AllocateDynamicArray<std::shared_ptr<Tile>>(spr->height, spr->width);
-        for (std::int32_t y = 0; y < spr->height; y++)
+        for (int32_t y = 0; y < spr->height; y++)
         {
-            for (std::int32_t x = 0; x < spr->width; x++)
+            for (int32_t x = 0; x < spr->width; x++)
             {
                 int32_t tileIdx = proj.ReadInt32();
                 std::shared_ptr<Tile> &tile = obj->Tileset[tileIdx];
@@ -11964,15 +11964,15 @@ std::shared_ptr<Program::ScreensProject> Program::InitScreensProject(const std::
     }
 
     //загружаем скрины
-    std::int32_t scr_count = proj.ReadInt32();
+    int32_t scr_count = proj.ReadInt32();
     obj->Screens.clear();
-    for (std::int32_t i = 0; i < scr_count; i++)
+    for (int32_t i = 0; i < scr_count; i++)
     {
         std::shared_ptr<Screen> scr = std::make_shared<Screen>();
         scr->name    = proj.ReadString();
         scr->visible = proj.ReadBoolean();
-        std::int32_t scrspr_count = proj.ReadInt32();
-        for (std::int32_t j = 0; j < scrspr_count; j++)
+        int32_t scrspr_count = proj.ReadInt32();
+        for (int32_t j = 0; j < scrspr_count; j++)
         {
             std::shared_ptr<ScreenSprite> scrspr = std::make_shared<ScreenSprite>();
             scrspr->sprite = FindSprite(obj, proj.ReadString());
@@ -11986,9 +11986,9 @@ std::shared_ptr<Program::ScreensProject> Program::InitScreensProject(const std::
     return obj;
 }
 
-std::shared_ptr<Program::Tile> Program::AddTile(const std::shared_ptr<Program::ScreensProject> &obj, std::vector<std::uint8_t> &data)
+std::shared_ptr<Program::Tile> Program::AddTile(const std::shared_ptr<Program::ScreensProject> &obj, std::vector<uint8_t> &data)
 {
-    std::int32_t len = 9;
+    int32_t len = 9;
     if (tiles_mode != 0)
     {
         len = 64;
@@ -11997,7 +11997,7 @@ std::shared_ptr<Program::Tile> Program::AddTile(const std::shared_ptr<Program::S
     for (const auto &te : obj->Tileset)
     {
         bool e = true;
-        for (std::int32_t j = 0; j < len; j++)
+        for (int32_t j = 0; j < len; j++)
         {
             if (data[j] != te->data[j])
             {
@@ -12012,17 +12012,17 @@ std::shared_ptr<Program::Tile> Program::AddTile(const std::shared_ptr<Program::S
     }
 
     std::shared_ptr<Tile> t = std::make_shared<Tile>();
-    t->data = std::vector<std::uint8_t>(len);
-    for (std::int32_t j = 0; j < len; j++)
+    t->data = std::vector<uint8_t>(len);
+    for (int32_t j = 0; j < len; j++)
     {
         t->data[j] = data[j];
     }
 
 
     t->img = std::make_shared<Surface>(8, 8);
-    for (std::int32_t y = 0; y < 8; y++)
+    for (int32_t y = 0; y < 8; y++)
     {
-        for (std::int32_t x = 0; x < 8; x++)
+        for (int32_t x = 0; x < 8; x++)
         {
             if (tiles_mode == 0)
             {
@@ -12039,7 +12039,7 @@ std::shared_ptr<Program::Tile> Program::AddTile(const std::shared_ptr<Program::S
     return t;
 }
 
-SdlDotNetCompat::Drawing::Color Program::GetAttrColor(std::uint8_t attr, bool enable)
+SdlDotNetCompat::Drawing::Color Program::GetAttrColor(uint8_t attr, bool enable)
 {
     if (!bw_color_mode || game_mode != race_mode)
     {
@@ -12103,25 +12103,25 @@ std::shared_ptr<Program::Screen> Program::FindScreen(const std::shared_ptr<Progr
     return nullptr;
 }
 
-void Program::DrawScreen(const std::shared_ptr<ScreensProject> &proj, std::int32_t num)
+void Program::DrawScreen(const std::shared_ptr<ScreensProject> &proj, int32_t num)
 {
     std::shared_ptr<Screen> scr = proj->Screens[num];
     for (const auto &scr_spr : scr->sprites)
     {
-        std::int32_t x_cord = scr_spr->x_cord;
-        std::int32_t y_cord = scr_spr->y_cord;
-        for (std::int32_t y = 0; y < scr_spr->sprite->height; y++)
+        int32_t x_cord = scr_spr->x_cord;
+        int32_t y_cord = scr_spr->y_cord;
+        for (int32_t y = 0; y < scr_spr->sprite->height; y++)
         {
-            for (std::int32_t x = 0; x < scr_spr->sprite->width; x++)
+            for (int32_t x = 0; x < scr_spr->sprite->width; x++)
             {
                 screen->Blit(*(scr_spr->sprite->tiles[x][y]->img), Point((x_cord + x) * 8, (y_cord + y) * 8));
                 //if (tiles_mode == 0)
                 {
                     Color ink = GetAttrColor(scr_spr->sprite->tiles[x][y]->data[0], true);
                     Color paper = GetAttrColor(scr_spr->sprite->tiles[x][y]->data[0], false);
-                    for (std::int32_t j = 0; j < 8; j++)
+                    for (int32_t j = 0; j < 8; j++)
                     {
-                        for (std::int32_t i = 0; i < 8; i++)
+                        for (int32_t i = 0; i < 8; i++)
                         {
                             attr_layer[0][(x_cord + x) * 8 + i][(y_cord + y) * 8 + j] = ink;
                             attr_layer[1][(x_cord + x) * 8 + i][(y_cord + y) * 8 + j] = paper;
@@ -12133,20 +12133,20 @@ void Program::DrawScreen(const std::shared_ptr<ScreensProject> &proj, std::int32
     }
 }
 
-void Program::DrawScreenSprite(const std::shared_ptr<ScreensProject> &proj, const std::string &name, std::int32_t xcord, std::int32_t ycord, std::int32_t xwin, std::int32_t ywin, std::int32_t width, std::int32_t height)
+void Program::DrawScreenSprite(const std::shared_ptr<ScreensProject> &proj, const std::string &name, int32_t xcord, int32_t ycord, int32_t xwin, int32_t ywin, int32_t width, int32_t height)
 {
     std::shared_ptr<Sprite> spr = FindSprite(proj, name);
-    for (std::int32_t y = 0; y < height; y++)
+    for (int32_t y = 0; y < height; y++)
     {
-        for (std::int32_t x = 0; x < width; x++)
+        for (int32_t x = 0; x < width; x++)
         {
             screen->Blit(*(spr->tiles[x + xwin][y + ywin]->img), Point((xcord + x) * 8, (ycord + y) * 8));
             {
                 Color ink   = GetAttrColor(spr->tiles[x][y]->data[0], true);
                 Color paper = GetAttrColor(spr->tiles[x][y]->data[0], false);
-                for (std::int32_t j = 0; j < 8; j++)
+                for (int32_t j = 0; j < 8; j++)
                 {
-                    for (std::int32_t i = 0; i < 8; i++)
+                    for (int32_t i = 0; i < 8; i++)
                     {
                         attr_layer[0][(xcord + x) * 8 + i][(ycord + y) * 8 + j] = ink;
                         attr_layer[1][(xcord + x) * 8 + i][(ycord + y) * 8 + j] = paper;
@@ -12220,7 +12220,7 @@ void Program::ShowSelectMenu()
         DrawScreen(select_menu, 8);
     }
 
-    for (std::int32_t i = 0; i < 4; i++)
+    for (int32_t i = 0; i < 4; i++)
     {
         if (have_suit[i])
         {
@@ -12236,11 +12236,11 @@ void Program::ShowSelectMenu()
     }
 }
 
-void Program::SelectTest(std::int32_t delta)
+void Program::SelectTest(int32_t delta)
 {
     InitSFX(sfx_switch);
     current_suit &= 3;
-    for (std::int32_t i = 0; i < 4; i++)
+    for (int32_t i = 0; i < 4; i++)
     {
         if (have_suit[current_suit])
         {
@@ -12341,13 +12341,13 @@ void Program::InitSFXBank()
     LoadSFX("./res/SFX/sfx_star.wav", sfx_star, high_priority);
 }
 
-void Program::LoadSFX(const std::string &filePath, std::int32_t num, std::int32_t priority)
+void Program::LoadSFX(const std::string &filePath, int32_t num, int32_t priority)
 {
     SFX_Priority[num] = priority;
     SFX_Bank[num] = std::make_shared<SdlDotNetCompat::Audio::Sound>(filePath);
 }
 
-void Program::InitSFX(std::int32_t num)
+void Program::InitSFX(int32_t num)
 {
     if (!sound_on)
     {
@@ -12364,7 +12364,7 @@ void Program::InitSFX(std::int32_t num)
     }
 }
 
-void Program::InitGameMusic(std::int32_t num, bool looped)
+void Program::InitGameMusic(int32_t num, bool looped)
 {
     if (num == 255 || !music_on)
     {
@@ -12411,7 +12411,7 @@ void Program::ResumeGameMusic()
     }
 }
 
-void Program::InitMenuMusic(std::int32_t num, bool looped)
+void Program::InitMenuMusic(int32_t num, bool looped)
 {
     if (num == 255 || !music_on)
     {
@@ -12447,7 +12447,7 @@ void Program::MuteAllMusic()
 
 bool Program::isEnemy(const std::shared_ptr<GameObject> &obj)
 {
-    std::vector<std::int32_t> e = {idTankette, idDron, idSpider, idPiranha, idBigPiranha, idJelly, idBug, idDronBomber, idGun, idDragonfly, idFighterBomber, idAlienWorm, idSlime, idSonusVenator};
+    std::vector<int32_t> e = {idTankette, idDron, idSpider, idPiranha, idBigPiranha, idJelly, idBug, idDronBomber, idGun, idDragonfly, idFighterBomber, idAlienWorm, idSlime, idSonusVenator};
     for (auto i : e)
     {
         if (obj->Name == i)
@@ -12462,7 +12462,7 @@ void Program::SpawnObjects(const std::shared_ptr<GameObject> &obj)
 {
     if (graphics_quality == 0 && isEnemy(obj))
     {
-        std::int32_t c = 0;
+        int32_t c = 0;
         for (const auto &o : actual_objects)
         {
             if (!o->NoActivated && isEnemy(o))
@@ -12480,7 +12480,7 @@ void Program::SpawnObjects(const std::shared_ptr<GameObject> &obj)
     {
 
         std::string anim = "";
-        std::int32_t sfx = 255;
+        int32_t sfx = 255;
         std::vector<std::shared_ptr<ObjectAnimation>> prev_anims = obj->Animations;
 
         obj->X = obj->XTile * 16 + 8;
@@ -12521,7 +12521,7 @@ void Program::SpawnObjects(const std::shared_ptr<GameObject> &obj)
             obj->Fixed = true;
             obj->Direction = false;
             //включение таблички над дверью для хардмода
-            std::int32_t a = reverse_way ? 0 : 1;
+            int32_t a = reverse_way ? 0 : 1;
             if (a == obj->Status && current_level < 4 && current_location == 3 && difficulty != 0)
             {
                 NewTile(obj->XTile, obj->YTile - 3, 255);
@@ -12793,7 +12793,7 @@ void Program::SpawnObjects(const std::shared_ptr<GameObject> &obj)
         case idPowerup:
         case idStar:
         {
-            std::int32_t n = 0;
+            int32_t n = 0;
             switch (obj->Name)
             {
             case idBattery:
@@ -12806,7 +12806,7 @@ void Program::SpawnObjects(const std::shared_ptr<GameObject> &obj)
                 n = 9;
                 break;
             case idStar:
-                if ((collected_stars & (static_cast<std::uint64_t>(1) << obj->Status)) == 0)
+                if ((collected_stars & (static_cast<uint64_t>(1) << obj->Status)) == 0)
                 {
                     n = 13;
                 }
@@ -12817,8 +12817,8 @@ void Program::SpawnObjects(const std::shared_ptr<GameObject> &obj)
                 }
                 break;
             }
-            obj->Type = static_cast<std::uint8_t>(n);
-            obj->XAccel = static_cast<std::uint8_t>(n);
+            obj->Type = static_cast<uint8_t>(n);
+            obj->XAccel = static_cast<uint8_t>(n);
             obj->Width = 7;
             obj->Height = -16;
             obj->haveGravity = true;
@@ -12829,7 +12829,7 @@ void Program::SpawnObjects(const std::shared_ptr<GameObject> &obj)
         case idJGun:
         case idJShield:
         {
-            std::int32_t t = 0;
+            int32_t t = 0;
             switch (obj->Name)
             {
             case idJDJump:
@@ -12842,8 +12842,8 @@ void Program::SpawnObjects(const std::shared_ptr<GameObject> &obj)
                 t = 13;
                 break;
             }
-            obj->Type = static_cast<std::uint8_t>(t);
-            obj->XAccel = static_cast<std::uint8_t>(t);
+            obj->Type = static_cast<uint8_t>(t);
+            obj->XAccel = static_cast<uint8_t>(t);
             obj->Width = 7;
             obj->Height = -16;
             obj->haveGravity = true;
@@ -12893,7 +12893,7 @@ void Program::SpawnObjects(const std::shared_ptr<GameObject> &obj)
     }
 }
 
-std::int32_t Program::UpdateBar(std::int32_t current, std::int32_t value, std::int32_t x, std::int32_t y)
+int32_t Program::UpdateBar(int32_t current, int32_t value, int32_t x, int32_t y)
 {
     if (value >= 78)
     {
@@ -12926,7 +12926,7 @@ void Program::InitStealth()
     ClearActualObjectsList();
     statusbar = InitScreensProject("j_bar");
 
-    for (std::int32_t i = 0; i < stealth_flags.size(); i++)
+    for (int32_t i = 0; i < stealth_flags.size(); i++)
     {
         stealth_flags[i] = false;
     }
@@ -12962,12 +12962,12 @@ void Program::InitStealth()
     stealth_pause = false;
 }
 
-bool Program::GetStealth(std::int32_t num)
+bool Program::GetStealth(int32_t num)
 {
     return stealth_flags[num - 1];
 }
 
-void Program::SetStealth(std::int32_t num)
+void Program::SetStealth(int32_t num)
 {
     stealth_flags[num - 1] = true;
 }
@@ -12975,7 +12975,7 @@ void Program::SetStealth(std::int32_t num)
 void Program::InitStelthStatusbar()
 {
     DrawScreen(statusbar, 8);
-    for (std::int32_t i = 0; i < 77; i++)
+    for (int32_t i = 0; i < 77; i++)
     {
         ResScaleCol(19 + i, 166);
         ResScaleCol(19 + i, 182);
@@ -13344,7 +13344,7 @@ void Program::JPolice(const std::shared_ptr<GameObject> &obj)
     }
 
     std::string anim = "Police1_Idle";
-    std::int32_t d = 32;
+    int32_t d = 32;
     if (hero_moved && (hero_object->X < obj->X && !hero_object->Direction || hero_object->X >= obj->X && hero_object->Direction))
     {
         d = 56;
@@ -13529,7 +13529,7 @@ void Program::JLift(const std::shared_ptr<GameObject> &obj)
         return;
     }
 
-    std::int32_t t = 6;
+    int32_t t = 6;
 
     if (obj->Status == next_lift_num && GetStealth(obj->Status))
     {
@@ -13554,7 +13554,7 @@ void Program::JLift(const std::shared_ptr<GameObject> &obj)
     {
         if (GetKey(Key_Up))
         {
-            std::int32_t dist = GetXDistance(obj);
+            int32_t dist = GetXDistance(obj);
             if (dist < 16)
             {
                 if (dist >= 2)
@@ -13596,7 +13596,7 @@ void Program::JDoor(const std::shared_ptr<GameObject> &obj)
     {
         if (!hero_object->NoVisible && !hero_object->NoInterruptAnim)
         {
-            std::int32_t d = GetXDistance(obj);
+            int32_t d = GetXDistance(obj);
             if (d < 16)
             {
                 if (d >= 2)
@@ -13649,8 +13649,8 @@ void Program::JTerminal(const std::shared_ptr<GameObject> &obj)
         return;
     }
 
-    std::int32_t t = 2;
-    std::int32_t d = std::abs(hero_object->X - (obj->X + 8));
+    int32_t t = 2;
+    int32_t d = std::abs(hero_object->X - (obj->X + 8));
 
     if (d >= 41)
     {
@@ -13695,7 +13695,7 @@ void Program::JTerminal(const std::shared_ptr<GameObject> &obj)
         }
     }
 
-    for (std::int32_t i = 0; i < 2; i++)
+    for (int32_t i = 0; i < 2; i++)
     {
         NewTile(obj->XTile + i, obj->YTile - 2, t);
         if (t != 1)
@@ -13954,10 +13954,10 @@ bool Program::JCover(const std::shared_ptr<GameObject> &obj)
     return false;
 }
 
-void Program::InitJIcon(std::int32_t command)
+void Program::InitJIcon(int32_t command)
 {
     icon_mode = command;
-    std::int32_t scr = 4;
+    int32_t scr = 4;
     switch (command)
     {
     case im_damage:
@@ -13977,7 +13977,7 @@ void Program::UpdateJIcon()
     if (icon_timer >= 3)
     {
         icon_timer = 0;
-        std::int32_t scr = 4;
+        int32_t scr = 4;
         switch (icon_mode)
         {
         case im_noise:
@@ -14019,7 +14019,7 @@ void Program::UpdateJIcon()
 
 void Program::Interrupt()
 {
-    single_keys |= static_cast<std::uint8_t>(pressed_keys & (~last_keys));
+    single_keys |= static_cast<uint8_t>(pressed_keys & (~last_keys));
     last_keys = pressed_keys;
 
     pressed_keys = PressedKeysStatus;
@@ -14029,7 +14029,7 @@ void Program::Interrupt()
     if (kempston != nullptr && m_setup_form == nullptr)
     {
 
-        for (std::int32_t i = 0; i < 8; i++)
+        for (int32_t i = 0; i < 8; i++)
         {
             bool is_press = false;
             if (kempston_buttons[i]->isAxis)
@@ -14054,7 +14054,7 @@ void Program::Interrupt()
             }
             if (is_press)
             {
-                std::int32_t nn = i;
+                int32_t nn = i;
                 if (i == 4)
                 {
                     nn = 5;
@@ -14067,7 +14067,7 @@ void Program::Interrupt()
                 {
                     nn = 4;
                 }
-                pressed_keys |= static_cast<std::uint8_t>(1 << nn);
+                pressed_keys |= static_cast<uint8_t>(1 << nn);
             }
         }
     }
@@ -14150,7 +14150,7 @@ void Program::Interrupt()
         //инициализация для случайной анимации
         if ((rnd->Next() & 31) == 0)
         {
-            for (std::int32_t i = 0; i < 4; i++)
+            for (int32_t i = 0; i < 4; i++)
             {
                 if (RndTimerTiles[i] == 8)
                 {
@@ -14160,7 +14160,7 @@ void Program::Interrupt()
         }
 
         //счётчики анимации
-        for (std::int32_t i = 0; i < 4; i++)
+        for (int32_t i = 0; i < 4; i++)
         {
             TimerCounters[i]++;
             if (TimerCounters[i] == i + 1)
@@ -14175,7 +14175,7 @@ void Program::Interrupt()
         }
 
         //счётчики случайной анимации
-        for (std::int32_t i = 0; i < 4; i++)
+        for (int32_t i = 0; i < 4; i++)
         {
             RndTimerCounters[i]++;
             if (RndTimerCounters[i] == i + 1)
@@ -14200,19 +14200,19 @@ void Program::Interrupt()
     }
 }
 
-bool Program::GetKey(std::uint8_t key)
+bool Program::GetKey(uint8_t key)
 {
-    std::int32_t mask = disable_control ? 0 : 255;
+    int32_t mask = disable_control ? 0 : 255;
     mask |= 0x80;
     return (pressed_keys & key & mask) != 0;
 }
 
-bool Program::GetLastKey(std::uint8_t key)
+bool Program::GetLastKey(uint8_t key)
 {
     return (last_keys & key) != 0;
 }
 
-bool Program::GetPressedKey(std::uint8_t key)
+bool Program::GetPressedKey(uint8_t key)
 {
     return (single_keys & key) != 0;
 }
@@ -14234,14 +14234,14 @@ void Program::InitFonts()
 
     next_mini_powerups = std::make_shared<Surface>("./res/fonts/platformer_mode_font.png");
 
-    std::int32_t n = 0;
-    for (std::int32_t j = 0; j < 256; j++)
+    int32_t n = 0;
+    for (int32_t j = 0; j < 256; j++)
     {
-        for (std::int32_t i = 0; i < 8; i++)
+        for (int32_t i = 0; i < 8; i++)
         {
-            std::int32_t a = f[n++];
+            int32_t a = f[n++];
 
-            for (std::int32_t s = 0; s < 8; s++)
+            for (int32_t s = 0; s < 8; s++)
             {
                 font32[j][s][i] = (((a << s) & 128) == 0) ? false : true;
             }
@@ -14249,7 +14249,7 @@ void Program::InitFonts()
     }
 }
 
-void Program::DrawSymbol32(std::int32_t x, std::int32_t y, std::uint8_t symbol, std::uint8_t attr)
+void Program::DrawSymbol32(int32_t x, int32_t y, uint8_t symbol, uint8_t attr)
 {
     Color paper = GetAttrColor(attr, false);
     Color ink = GetAttrColor(attr, true);
@@ -14259,9 +14259,9 @@ void Program::DrawSymbol32(std::int32_t x, std::int32_t y, std::uint8_t symbol, 
         ink = attr_layer[1][x * 8][y * 8];
     }
     Color pix;
-    for (std::int32_t j = 0; j < 8; j++)
+    for (int32_t j = 0; j < 8; j++)
     {
-        for (std::int32_t i = 0; i < 8; i++)
+        for (int32_t i = 0; i < 8; i++)
         {
             pix = font32[symbol][i][j] ^ invert_print ? ink : paper;
             screen->Draw(Point(x * 8 + i, y * 8 + j), pix);
@@ -14269,11 +14269,11 @@ void Program::DrawSymbol32(std::int32_t x, std::int32_t y, std::uint8_t symbol, 
     }
 }
 
-void Program::PrintString32(std::int32_t x, std::int32_t y, const std::string &text)
+void Program::PrintString32(int32_t x, int32_t y, const std::string &text)
 {
     for (size_t i = 0; i < text.length(); i++)
     {
-        DrawSymbol32(x + i, y, static_cast<std::uint8_t>(text[i]), 0);
+        DrawSymbol32(x + i, y, static_cast<uint8_t>(text[i]), 0);
     }
 }
 
@@ -14286,10 +14286,10 @@ void Program::LoadTexts()
     File::ReadAllBytes(path, texts);
 }
 
-std::int32_t Program::FindText(std::int32_t num)
+int32_t Program::FindText(int32_t num)
 {
-    std::int32_t i = 0;
-    std::int32_t pos = 0;
+    int32_t i = 0;
+    int32_t pos = 0;
     while (num != i)
     {
         if (static_cast<uint8_t>(texts[pos]) == 255)
@@ -14301,7 +14301,7 @@ std::int32_t Program::FindText(std::int32_t num)
     return pos;
 }
 
-std::int32_t Program::NextString(std::int32_t pos)
+int32_t Program::NextString(int32_t pos)
 {
     while (static_cast<uint8_t>(texts[pos]) != 255)
     {
@@ -14315,7 +14315,7 @@ std::int32_t Program::NextString(std::int32_t pos)
     return pos;
 }
 
-std::int32_t Program::PrintString(std::int32_t pos, std::int32_t x, std::int32_t y)
+int32_t Program::PrintString(int32_t pos, int32_t x, int32_t y)
 {
     while (static_cast<uint8_t>(texts[pos]) != 255)
     {
@@ -14331,7 +14331,7 @@ std::int32_t Program::PrintString(std::int32_t pos, std::int32_t x, std::int32_t
     return pos;
 }
 
-void Program::InitText(std::int32_t text_num, std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height, std::uint8_t attr)
+void Program::InitText(int32_t text_num, int32_t x, int32_t y, int32_t width, int32_t height, uint8_t attr)
 {
     text_pos = FindText(text_num);
     text_x = x;
@@ -14348,7 +14348,7 @@ void Program::InitText(std::int32_t text_num, std::int32_t x, std::int32_t y, st
 
 bool Program::PrintSymbol()
 {
-    std::uint8_t sym = texts[text_pos];
+    uint8_t sym = texts[text_pos];
     if (sym == 255)
     {
         return false;
@@ -14378,7 +14378,7 @@ bool Program::PrintSymbol()
     return true;
 }
 
-void Program::PrintText(std::int32_t num, std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height, std::uint8_t attr)
+void Program::PrintText(int32_t num, int32_t x, int32_t y, int32_t width, int32_t height, uint8_t attr)
 {
     InitText(num, x, y, width, height, attr);
     while (PrintSymbol())
@@ -14387,7 +14387,7 @@ void Program::PrintText(std::int32_t num, std::int32_t x, std::int32_t y, std::i
     }
 }
 
-void Program::ScrollWindow(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height)
+void Program::ScrollWindow(int32_t x, int32_t y, int32_t width, int32_t height)
 {
     x = x * 8;
     y = y * 8;
@@ -14399,22 +14399,22 @@ void Program::ScrollWindow(std::int32_t x, std::int32_t y, std::int32_t width, s
     screen->Fill(SdlDotNetCompat::Drawing::Rectangle(x, y + height - 8, width, 8), Color::Black);
 }
 
-void Program::DrawSymbolLine(std::int32_t x, std::int32_t y, std::uint8_t symbol, std::int32_t line)
+void Program::DrawSymbolLine(int32_t x, int32_t y, uint8_t symbol, int32_t line)
 {
     Color paper = Color::Black; // attr_layer[0, x * 8, y];
     Color ink = Color::White; // attr_layer[1, x * 8, y];
     Color pix;
-    for (std::int32_t i = 0; i < 8; i++)
+    for (int32_t i = 0; i < 8; i++)
     {
         pix = font32[symbol][i][line] ? ink : paper;
         screen->Draw(Point(x * 8 + i, y), pix);
     }
 }
 
-std::int32_t Program::PrintStringLine()
+int32_t Program::PrintStringLine()
 {
-    std::int32_t p = text_pos;
-    std::int32_t x = titles_x;
+    int32_t p = text_pos;
+    int32_t x = titles_x;
     while (texts[p] != 0 && texts[p] != 0xFF)
     {
         DrawSymbolLine(x, 183, texts[p], text_counter);
@@ -14431,10 +14431,10 @@ std::int32_t Program::PrintStringLine()
 
 void Program::ScrollCredits()
 {
-    std::int32_t x = titles_x * 8;
-    std::int32_t y = titles_y * 8;
-    std::int32_t width = titles_width * 8;
-    std::int32_t height = titles_height * 8;
+    int32_t x = titles_x * 8;
+    int32_t y = titles_y * 8;
+    int32_t width = titles_width * 8;
+    int32_t height = titles_height * 8;
 
     screen->CopyPixels( Point(x, y), SdlDotNetCompat::Drawing::Rectangle(x, y + 1, width, height - 1) );
     ///screen->SetPixels(Point(x, y), screen->GetColors(System::Drawing::Rectangle(x, y + 1, width, height - 1)));

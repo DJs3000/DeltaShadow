@@ -9,10 +9,10 @@ namespace DeltaShadow
 	{
 	public:
 		bool isAxis = false;
-		std::int32_t AxisNum = 0;
+		int32_t AxisNum = 0;
 		float AxisDirection = 0;
 		bool isButton = false;
-		std::int32_t ButtonNum = 0;
+		int32_t ButtonNum = 0;
 	};
 
 }
