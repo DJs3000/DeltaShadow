@@ -10243,8 +10243,6 @@ void Program::KeyboardDown(void *, KeyboardEventArgs *e)
 {
     SdlDotNetCompat::Input::Key key = e->Key();
 
-    //TODO: replace with switch...
-
     if (key == Key::UpArrow)
     {
         key = KeysMap[0];
@@ -10301,13 +10299,15 @@ void Program::KeyboardDown(void *, KeyboardEventArgs *e)
 
     pressed_key_symbol = static_cast<int32_t>(key);
     pressed_key = key;
-#ifndef NOT_PORTED_YET
+
     if (pressed_key_symbol > static_cast<int32_t>('9'))
-    {
-        //C# TO C++ CONVERTER TODO TASK: There is no C++ equivalent to 'ToString':
-        pressed_key_symbol = static_cast<int32_t>(key.ToString().ToUpper()[0]);
+    {        
+        if (key >= Key::A && key <= Key::Z)
+        {
+            pressed_key_symbol = (pressed_key_symbol - (Key::A - 'A')); // SDL key code to ASCII code conversion
+        }
     }
-#endif
+
     if ((key >= Key::Zero && key <= Key::Nine)
             || (key >= Key::A && key <= Key::Z)
             ||  key == Key::Return
