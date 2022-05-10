@@ -24,6 +24,7 @@ make
 ```
 Пример сборки (Debian 11):
 ```
+sudo apt install cmake libsdl1.2-dev libsdl-gfx1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl1.2debian libsdl-gfx1.2-5 libsdl-image1.2 libsdl-mixer1.2
 cd ~
 mkdir DeltaShadow && cd DeltaShadow
 git clone https://github.com/DJs3000/DeltaShadow.git
