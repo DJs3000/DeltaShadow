@@ -22,6 +22,16 @@ make
 qmake DeltaShadow.pro
 make
 ```
+Пример сборки (Debian 11):
+```
+cd ~
+mkdir DeltaShadow && cd DeltaShadow
+git clone https://github.com/DJs3000/DeltaShadow.git
+cd DeltaShadow
+mkdir build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make
+```
 
 **Roadmap:**
 - Переписать рендер на OpenGL.
