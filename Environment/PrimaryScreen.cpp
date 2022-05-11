@@ -1,5 +1,6 @@
 #include "PrimaryScreen.h"
 #include <X11/Xlib.h>
+#include <stdint.h>
 
 namespace Environment {
 namespace PrimaryScreen {
