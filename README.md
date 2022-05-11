@@ -36,7 +36,11 @@ make
 
 **Roadmap:**
 - Переписать рендер на OpenGL.
-- Заменить SdlDotNet и SDL на SDL2.
+- Заменить SdlDotNet и SDL на SDL2, или всё перевести на SDL.
+
+**Известные проблемы**
+- не работает геймпад.
+
 
 ![](https://i.ibb.co/ctVSpS2/01.jpg)
 
