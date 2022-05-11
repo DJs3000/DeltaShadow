@@ -2,6 +2,7 @@
 #define ENVIRONMENT_PRIMARYSCREEN
 
 #include <cstdlib>
+#include <stdint.h>
 
 namespace Environment {
 namespace PrimaryScreen {
