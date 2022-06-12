@@ -43,26 +43,4 @@ void toLower(std::string &str)
    }
 }
 
-
-#include "EventsObjects.cpp"
-#include "GameObject.cpp"
-#include "GameObjectsSubprog.cpp"
-#include "GEngine.cpp"
-#include "Main.cpp"
-#include "Menu.cpp"
-#include "ObjectAnimation.cpp"
-#include "Platforming.cpp"
-#include "ProcessingObjects.cpp"
-#include "Program.cpp"
-#include "RaceLevel.cpp"
-#include "Scenes.cpp"
-#include "ScreensProject.cpp"
-#include "SelectSuite.cpp"
-#include "SEngine.cpp"
-#include "SpawnObjects.cpp"
-#include "StatusBar.cpp"
-#include "Stealth.cpp"
-#include "System.cpp"
-#include "Text.cpp"
-
 }

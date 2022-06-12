@@ -16,6 +16,26 @@ find_package(SDL_mixer REQUIRED)
 add_executable(${PROJECT_NAME}
     AnimTile.h
     DeltaShadow.Program.cpp DeltaShadow.Program.h
+    EventsObjects.cpp EventsObjects.h
+    GameObject.cpp GameObject.h
+    GameObjectsSubprog.cpp GameObjectsSubprog.h
+    GEngine.cpp GEngine.h
+    Main.cpp Main.h
+    Menu.cpp Menu.h
+    ObjectAnimation.cpp ObjectAnimation.h
+    Platforming.cpp Platforming.h
+    ProcessingObjects.cpp ProcessingObjects.h
+    Program.cpp Program.h
+    RaceLevel.cpp RaceLevel.h
+    Scenes.cpp Scenes.h
+    ScreensProject.cpp ScreensProject.h
+    SelectSuite.cpp SelectSuite.h
+    SEngine.cpp SEngine.h
+    SpawnObjects.cpp SpawnObjects.h
+    StatusBar.cpp StatusBar.h
+    Stealth.cpp Stealth.h
+    System.cpp System.h
+    Text.cpp Text.h
     Environment/PrimaryScreen.cpp Environment/PrimaryScreen.h
     Environment/SpecialFolder.cpp Environment/SpecialFolder.h
     Program.h
