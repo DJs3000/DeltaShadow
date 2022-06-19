@@ -1,5 +1,3 @@
-#include "ObjectData.h"
-
 namespace DeltaShadow
 {
 
