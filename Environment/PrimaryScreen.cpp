@@ -1,5 +1,5 @@
 #include "PrimaryScreen.h"
-#include <stdint.h>
+//#include <stdint.h>
 
 namespace Environment {
 namespace PrimaryScreen {
@@ -24,12 +24,6 @@ namespace PrimaryScreen {
 bool Size(int32_t &width, int32_t &height)
 {
    bool res = false;
-
-//SDL_Surface *Screen;
-//atexit(SDL_Quit);
-//if( SDL_Init(SDL_INIT_VIDEO) < 0 ) exit(1);
-//SDL_WM_SetCaption("SDL Window", NULL);
-//Screen = SDL_SetVideoMode( 640 , 480 , 32 , SDL_DOUBLEBUF|SDL_HWSURFACE|SDL_ANYFORMAT);
 
    return res;
 }

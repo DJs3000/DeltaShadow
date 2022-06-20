@@ -91,6 +91,6 @@ FORMS +=
 
 unix:!macx {
     INCLUDEPATH += /usr/include/SDL
-    LIBS += -lSDL -lSDL_gfx -lSDL_image -lSDL_mixer -lX11
+    LIBS += -lSDL -lSDL_gfx -lSDL_image -lSDL_mixer
 }
 

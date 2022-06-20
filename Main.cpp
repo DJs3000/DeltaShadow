@@ -1,7 +1,7 @@
 // NOTE: preferences (tile mode - zx_classic_mode OR zx_next_mode)
 std::string Program::language = "English";
-int32_t Program::sprite_mode = zx_classic_mode;
-int32_t Program::tiles_mode = zx_classic_mode;
+int32_t Program::sprite_mode = zx_next_mode;
+int32_t Program::tiles_mode = zx_next_mode;
 
 void Program::MainInit()
 {
