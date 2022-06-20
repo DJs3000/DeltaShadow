@@ -69,7 +69,6 @@ if(UNIX AND NOT MACOS)
         ${SDL_IMAGE_LIBRARIES}
         ${SDL_MIXER_LIBRARY}
         SDL_gfx
-        X11
     )
 endif()
 
