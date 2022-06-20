@@ -59,7 +59,7 @@ private:
       , ts_mode = 1
     };
 
-    std::int32_t sound_mode = one_ay_mode; //режим музыки
+    std::int32_t sound_mode = ts_mode; //режим музыки
 
     std::array<std::shared_ptr<GameObject>, 128> game_objects;   //список всех объектов локации
     std::array<std::shared_ptr<GameObject>, 128> actual_objects; //ссылки на актуальные объекты

@@ -230,7 +230,7 @@ void Program::LoadProgress()
     //проверяем версию
     std::string ver = f.ReadString();
     if (ver != current_save_version)
-    {        
+    {
         return;
     }
 
