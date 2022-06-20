@@ -56,6 +56,27 @@ namespace DeltaShadow
 class Program : public std::enable_shared_from_this<Program>
 {
 
+#include "EventsObjects.h"
+#include "GameObject.h"
+#include "GameObjectsSubprog.h"
+#include "GEngine.h"
+#include "Main.h"
+#include "Menu.h"
+#include "ObjectAnimation.h"
+#include "Platforming.h"
+#include "ProcessingObjects.h"
+#include "Program.h"
+#include "RaceLevel.h"
+#include "Scenes.h"
+#include "ScreensProject.h"
+#include "SelectSuite.h"
+#include "SEngine.h"
+#include "SpawnObjects.h"
+#include "StatusBar.h"
+#include "Stealth.h"
+#include "System.h"
+#include "Text.h"
+
 // EventsObjects
 
 // GameObject

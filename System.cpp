@@ -1,5 +1,3 @@
-#include "System.h"
-
 void Program::Interrupt()
 {
     single_keys |= static_cast<uint8_t>(pressed_keys & (~last_keys));

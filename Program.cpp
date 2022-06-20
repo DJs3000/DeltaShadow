@@ -1,5 +1,3 @@
-#include "Program.h"
-
 int32_t Program::screen_width = 0;
 int32_t Program::screen_height = 0;
 double Program::screen_scale = 3;

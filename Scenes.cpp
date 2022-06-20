@@ -1,5 +1,3 @@
-#include "Scenes.h"
-
 void Program::InitScene(int32_t num)
 {
     MuteAllMusic();

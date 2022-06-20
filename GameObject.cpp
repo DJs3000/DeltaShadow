@@ -1,5 +1,3 @@
-#include "GameObject.h"
-
 std::shared_ptr<Program::GameObject> Program::CreateObject(uint8_t name, int32_t x, int32_t y, bool direction, bool actual_object)
 {
     //ищем пустой слот объекта

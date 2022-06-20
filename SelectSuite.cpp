@@ -1,5 +1,3 @@
-#include "SelectSuite.h"
-
 void Program::InitSuit()
 {
     prev_suit = current_suit;

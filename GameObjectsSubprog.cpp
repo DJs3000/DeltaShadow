@@ -1,5 +1,3 @@
-#include "GameObjectsSubprog.h"
-
 bool Program::Gravity(const std::shared_ptr<Program::GameObject> &obj)
 {
     ga = 0;

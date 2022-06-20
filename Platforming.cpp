@@ -1,5 +1,3 @@
-#include "Platforming.h"
-
 void Program::InitPlatforming(bool boss)
 {
     statusbar = InitScreensProject("bar");

@@ -1,5 +1,3 @@
-#include "ProcessingObjects.h"
-
 void Program::ProcessingGameObject(const std::shared_ptr<GameObject> &obj)
 {
     if (obj->NoActivated)

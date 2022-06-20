@@ -1,5 +1,3 @@
-#include "Main.h"
-
 // NOTE: preferences (tile mode - zx_classic_mode OR zx_next_mode)
 std::string Program::language = "English";
 int32_t Program::sprite_mode = zx_classic_mode;

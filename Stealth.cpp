@@ -1,5 +1,3 @@
-#include "Stealth.h"
-
 void Program::InitStealth()
 {
     current_music = 255;

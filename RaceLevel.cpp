@@ -1,5 +1,3 @@
-#include "RaceLevel.h"
-
 void Program::InitRace()
 {
     MuteAllMusic();

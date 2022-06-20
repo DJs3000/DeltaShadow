@@ -1,5 +1,3 @@
-#include "StatusBar"
-
 int32_t Program::UpdateBar(int32_t current, int32_t value, int32_t x, int32_t y)
 {
     if (value >= 78)

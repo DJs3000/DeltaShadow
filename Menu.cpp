@@ -1,5 +1,3 @@
-#include "Menu.h"
-
 void Program::InitDebugMenu()
 {
     SetBorder(Color::Black);

@@ -1,5 +1,3 @@
-#include "ObjectAnimation.h"
-
 void Program::LoadAnimations(const std::string &name)
 {
     LoadAnimationsProject(name + "Classic.scproj");

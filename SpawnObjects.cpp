@@ -1,5 +1,3 @@
-#include "SpawnObjects.h"
-
 bool Program::isEnemy(const std::shared_ptr<GameObject> &obj)
 {
     std::vector<int32_t> e = {idTankette, idDron, idSpider, idPiranha, idBigPiranha, idJelly, idBug, idDronBomber, idGun, idDragonfly, idFighterBomber, idAlienWorm, idSlime, idSonusVenator};

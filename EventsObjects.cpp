@@ -1,5 +1,3 @@
-#include "EventsObjects.h"
-
 void Program::DoEvent(const std::shared_ptr<GameObject> &obj, const std::string &e)
 {
     //C# TO C++ CONVERTER NOTE: The following 'switch' operated on a string and was converted to C++ 'if-else' logic:

@@ -1,5 +1,3 @@
-#include "SEngine.h"
-
 void Program::InitSFXBank()
 {
     SFX_Bank.resize(32);

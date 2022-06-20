@@ -1,5 +1,3 @@
-#include "GEngine.h"
-
 void Program::InitGEngine()
 {
     screen = std::make_shared<SdlDotNetCompat::Graphics::Surface>(256, 192);

@@ -1,5 +1,3 @@
-#include "Text.h"
-
 void Program::InitFonts()
 {
     std::string langStr = language;

@@ -1,5 +1,3 @@
-#include "ScreensProject.h"
-
 std::shared_ptr<Program::ScreensProject> Program::InitScreensProject(const std::string &name)
 {
     std::string smprojFile;
