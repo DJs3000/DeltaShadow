@@ -1,5 +1,7 @@
 #include "BinaryStreamWriter.h"
 
+typedef unsigned int uint;
+
 BinaryStreamWriter::BinaryStreamWriter(const char *filePath)
   : m_stream(filePath, std::ios::binary | std::ios::out)
 {
