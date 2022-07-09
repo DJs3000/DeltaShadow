@@ -3,6 +3,9 @@ project(DeltaShadow VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+# Add CMake modules
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules)
+
 # Использовать стандарт C++11.
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -11,6 +14,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Инициализация зависимостей.
 find_package(SDL REQUIRED)
 find_package(SDL_image REQUIRED)
+find_package(SDL_gfx REQUIRED)
 find_package(SDL_mixer REQUIRED)
 
 add_executable(${PROJECT_NAME}
@@ -61,14 +65,15 @@ if(UNIX AND NOT MACOS)
     target_include_directories(${PROJECT_NAME} PRIVATE
         ${SDL_INCLUDE_DIR}
         ${SDL_IMAGE_INCLUDE_DIR}
+        ${SDL_GFX_INCLUDE_DIR}
         ${SDL_MIXER_INCLUDE_DIR}
     )
 
     target_link_libraries(${PROJECT_NAME} PRIVATE
         ${SDL_LIBRARY}
         ${SDL_IMAGE_LIBRARIES}
+        ${SDL_GFX_LIBRARIES}
         ${SDL_MIXER_LIBRARY}
-        SDL_gfx
     )
 endif()
 
